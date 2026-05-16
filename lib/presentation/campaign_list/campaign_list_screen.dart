@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_texts.dart';
+import '../../core/router/app_router.dart';
 import '../../data/repositories/campaign_repository.dart';
 import '../../injection.dart';
-import '../../presentation/campaign_detail/campaign_detail_screen.dart';
 import '../../shared/widgets/empty_state_view.dart';
 import '../../shared/widgets/error_view.dart';
 import '../../shared/widgets/shimmer_layouts.dart';
@@ -38,7 +38,7 @@ class _CampaignListView extends StatefulWidget {
 class _CampaignListViewState extends State<_CampaignListView>
     with SingleTickerProviderStateMixin {
   late AnimationController _fabController;
-  bool _showFab = true;
+  final ValueNotifier<bool> _showFabNotifier = ValueNotifier(true);
 
   @override
   void initState() {
@@ -52,17 +52,18 @@ class _CampaignListViewState extends State<_CampaignListView>
   @override
   void dispose() {
     _fabController.dispose();
+    _showFabNotifier.dispose();
     super.dispose();
   }
 
   void _onScroll(ScrollNotification notification) {
     if (notification is ScrollUpdateNotification) {
       if (notification.scrollDelta != null) {
-        if (notification.scrollDelta! > 0 && _showFab) {
-          setState(() => _showFab = false);
+        if (notification.scrollDelta! > 0 && _showFabNotifier.value) {
+          _showFabNotifier.value = false;
           _fabController.reverse();
-        } else if (notification.scrollDelta! < 0 && !_showFab) {
-          setState(() => _showFab = true);
+        } else if (notification.scrollDelta! < 0 && !_showFabNotifier.value) {
+          _showFabNotifier.value = true;
           _fabController.forward();
         }
       }
@@ -281,26 +282,8 @@ class _CampaignListViewState extends State<_CampaignListView>
                               key: ValueKey(campaign.id),
                               index: index,
                               campaign: campaign,
-                              onTap: () => Navigator.of(context).push(
-                                PageRouteBuilder(
-                                  pageBuilder: (context, animation,
-                                          secondaryAnimation) =>
-                                      CampaignDetailScreen(
-                                    campaignId: campaign.id,
-                                  ),
-                                  transitionsBuilder: (context, animation,
-                                      secondaryAnimation, child) {
-                                    const begin = Offset(1.0, 0.0);
-                                    const end = Offset.zero;
-                                    const curve = Curves.easeInOut;
-                                    final tween = Tween(begin: begin, end: end)
-                                        .chain(CurveTween(curve: curve));
-                                    return SlideTransition(
-                                      position: animation.drive(tween),
-                                      child: child,
-                                    );
-                                  },
-                                ),
+                              onTap: () => Navigator.of(context).pushNamed(
+                                '${AppRoutes.campaignDetail}/${campaign.id}',
                               ),
                             );
                           },

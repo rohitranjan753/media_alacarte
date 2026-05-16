@@ -209,8 +209,7 @@ class _StatusBarState extends State<_StatusBar>
     with SingleTickerProviderStateMixin {
   late final AnimationController _pulse;
   late final Animation<double> _scale;
-  Timer? _clockTimer;
-  DateTime _now = DateTime.now();
+  late final Stream<DateTime> _clockStream;
 
   @override
   void initState() {
@@ -223,141 +222,147 @@ class _StatusBarState extends State<_StatusBar>
       CurvedAnimation(parent: _pulse, curve: Curves.easeInOut),
     );
 
-    // Update clock every second
-    _clockTimer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (mounted) {
-        setState(() => _now = DateTime.now());
-      }
-    });
+    // Update clock every second using Stream
+    _clockStream = Stream.periodic(
+      const Duration(seconds: 1),
+      (_) => DateTime.now(),
+    ).asBroadcastStream();
   }
 
   @override
   void dispose() {
     _pulse.dispose();
-    _clockTimer?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AnomalyBloc, AnomalyState>(
-      builder: (context, state) {
-        final isError = state is AnomalyError;
-        final dotColor =
-            isError ? AppColors.alertSpend : AppColors.statusActive;
+    return StreamBuilder<DateTime>(
+      stream: _clockStream,
+      initialData: DateTime.now(),
+      builder: (context, snapshot) {
+        final now = snapshot.data ?? DateTime.now();
 
-        String label;
-        String? countdown;
+        return BlocBuilder<AnomalyBloc, AnomalyState>(
+          builder: (context, state) {
+            final isError = state is AnomalyError;
+            final dotColor =
+                isError ? AppColors.alertSpend : AppColors.statusActive;
 
-        if (isError) {
-          label = 'Error — tap retry';
-        } else if (state is AnomalyPolling) {
-          final t = state.lastUpdated;
-          final time = '${_pad(t.hour)}:${_pad(t.minute)}:${_pad(t.second)}';
-          label = 'Live • Last updated $time';
+            String label;
+            String? countdown;
 
-          // Calculate countdown to next poll (30 seconds)
-          final elapsed = _now.difference(t).inSeconds;
-          final remaining = 30 - elapsed;
-          if (remaining > 0) {
-            countdown = '${remaining}s';
-          }
-        } else {
-          label = 'Connecting…';
-        }
+            if (isError) {
+              label = 'Error — tap retry';
+            } else if (state is AnomalyPolling) {
+              final t = state.lastUpdated;
+              final time = '${_pad(t.hour)}:${_pad(t.minute)}:${_pad(t.second)}';
+              label = 'Live • Last updated $time';
 
-        return Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          decoration: const BoxDecoration(
-            color: AppColors.surface,
-            border: Border(
-              bottom: BorderSide(color: AppColors.cardBorder),
-            ),
-          ),
-          child: Row(
-            children: [
-              ScaleTransition(
-                scale: _scale,
-                child: Container(
-                  width: 8,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    color: dotColor,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: dotColor.withValues(alpha: 0.5),
-                        blurRadius: 4,
-                        spreadRadius: 1,
-                      ),
-                    ],
-                  ),
+              // Calculate countdown to next poll (30 seconds)
+              final elapsed = now.difference(t).inSeconds;
+              final remaining = 30 - elapsed;
+              if (remaining > 0) {
+                countdown = '${remaining}s';
+              }
+            } else {
+              label = 'Connecting…';
+            }
+
+            return Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: const BoxDecoration(
+                color: AppColors.surface,
+                border: Border(
+                  bottom: BorderSide(color: AppColors.cardBorder),
                 ),
               ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      label,
-                      style: const TextStyle(
-                        color: AppColors.textPrimary,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
+              child: Row(
+                children: [
+                  ScaleTransition(
+                    scale: _scale,
+                    child: Container(
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: dotColor,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: dotColor.withValues(alpha: 0.5),
+                            blurRadius: 4,
+                            spreadRadius: 1,
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      'Current time: ${_pad(_now.hour)}:${_pad(_now.minute)}:${_pad(_now.second)}',
-                      style: const TextStyle(
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          label,
+                          style: const TextStyle(
+                            color: AppColors.textPrimary,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          'Current time: ${_pad(now.hour)}:${_pad(now.minute)}:${_pad(now.second)}',
+                          style: const TextStyle(
+                            color: AppColors.textSecondary,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (countdown != null) ...[
+                    Container(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.refresh_rounded,
+                            color: AppColors.primary,
+                            size: 14,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            countdown,
+                            style: const TextStyle(
+                              color: AppColors.primary,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ] else
+                    const Text(
+                      'Updates every 30s',
+                      style: TextStyle(
                         color: AppColors.textSecondary,
                         fontSize: 11,
-                        fontWeight: FontWeight.w400,
                       ),
                     ),
-                  ],
-                ),
+                ],
               ),
-              if (countdown != null) ...[
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.refresh_rounded,
-                        color: AppColors.primary,
-                        size: 14,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        countdown,
-                        style: const TextStyle(
-                          color: AppColors.primary,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ] else
-                const Text(
-                  'Updates every 30s',
-                  style: TextStyle(
-                    color: AppColors.textSecondary,
-                    fontSize: 11,
-                  ),
-                ),
-            ],
-          ),
+            );
+          },
         );
       },
     );
@@ -433,8 +438,8 @@ class _NotificationToggle extends StatefulWidget {
 }
 
 class _NotificationToggleState extends State<_NotificationToggle> {
-  bool _enabled = true;
-  bool _isLoading = false;
+  final ValueNotifier<bool> _enabledNotifier = ValueNotifier(true);
+  final ValueNotifier<bool> _loadingNotifier = ValueNotifier(false);
 
   @override
   void initState() {
@@ -442,12 +447,17 @@ class _NotificationToggleState extends State<_NotificationToggle> {
     _checkNotificationStatus();
   }
 
+  @override
+  void dispose() {
+    _enabledNotifier.dispose();
+    _loadingNotifier.dispose();
+    super.dispose();
+  }
+
   Future<void> _checkNotificationStatus() async {
     final service = sl<NotificationService>();
     final enabled = await service.areNotificationsEnabled();
-    if (mounted) {
-      setState(() => _enabled = enabled && service.isEnabled);
-    }
+    _enabledNotifier.value = enabled && service.isEnabled;
   }
 
   Future<void> _toggleNotifications(bool value) async {
@@ -459,7 +469,7 @@ class _NotificationToggleState extends State<_NotificationToggle> {
       }
     }
 
-    setState(() => _isLoading = true);
+    _loadingNotifier.value = true;
 
     final service = sl<NotificationService>();
 
@@ -493,22 +503,18 @@ class _NotificationToggleState extends State<_NotificationToggle> {
             ),
           );
         }
-        setState(() {
-          _isLoading = false;
-          _enabled = false;
-        });
+        _loadingNotifier.value = false;
+        _enabledNotifier.value = false;
         return;
       }
     }
 
     service.setEnabled(value);
 
-    if (mounted) {
-      setState(() {
-        _enabled = value;
-        _isLoading = false;
-      });
+    _enabledNotifier.value = value;
+    _loadingNotifier.value = false;
 
+    if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Row(
@@ -638,79 +644,90 @@ class _NotificationToggleState extends State<_NotificationToggle> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: _enabled ? AppColors.primary : AppColors.cardBorder,
-        ),
-      ),
-      child: Row(
-        children: [
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: _enabled
-                  ? AppColors.primary.withValues(alpha: 0.15)
-                  : AppColors.cardBorder,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: _isLoading
-                ? const Padding(
-                    padding: EdgeInsets.all(12),
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: AppColors.primary,
+    return ValueListenableBuilder<bool>(
+      valueListenable: _enabledNotifier,
+      builder: (context, enabled, _) {
+        return ValueListenableBuilder<bool>(
+          valueListenable: _loadingNotifier,
+          builder: (context, isLoading, _) {
+            return AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppColors.surface,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: enabled ? AppColors.primary : AppColors.cardBorder,
+                ),
+              ),
+              child: Row(
+                children: [
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      color: enabled
+                          ? AppColors.primary.withValues(alpha: 0.15)
+                          : AppColors.cardBorder,
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                  )
-                : Icon(
-                    _enabled
-                        ? Icons.notifications_active_outlined
-                        : Icons.notifications_off_outlined,
-                    color:
-                        _enabled ? AppColors.primary : AppColors.textSecondary,
-                    size: 22,
+                    child: isLoading
+                        ? const Padding(
+                            padding: EdgeInsets.all(12),
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: AppColors.primary,
+                            ),
+                          )
+                        : Icon(
+                            enabled
+                                ? Icons.notifications_active_outlined
+                                : Icons.notifications_off_outlined,
+                            color: enabled
+                                ? AppColors.primary
+                                : AppColors.textSecondary,
+                            size: 22,
+                          ),
                   ),
-          ),
-          const SizedBox(width: 14),
-          const Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Enable Push Notifications',
-                  style: TextStyle(
-                    color: AppColors.textPrimary,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
+                  const SizedBox(width: 14),
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Enable Push Notifications',
+                          style: TextStyle(
+                            color: AppColors.textPrimary,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Get notified when new anomalies are detected',
+                          style: TextStyle(
+                            color: AppColors.textSecondary,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  'Get notified when new anomalies are detected',
-                  style: TextStyle(
-                    color: AppColors.textSecondary,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
+                  const SizedBox(width: 12),
+                  Switch(
+                    value: enabled,
+                    onChanged: isLoading ? null : _toggleNotifications,
+                    activeThumbColor: AppColors.primary,
+                    activeTrackColor: AppColors.primary.withValues(alpha: 0.4),
                   ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          Switch(
-            value: _enabled,
-            onChanged: _isLoading ? null : _toggleNotifications,
-            activeThumbColor: AppColors.primary,
-            activeTrackColor: AppColors.primary.withValues(alpha: 0.4),
-          ),
-        ],
-      ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

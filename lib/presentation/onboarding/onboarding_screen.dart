@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
+import '../../core/router/app_router.dart';
 import '../../data/services/onboarding_service.dart';
-import '../../shell/app_shell.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -47,27 +47,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   Future<void> _completeOnboarding() async {
     await _onboardingService.setOnboardingCompleted();
     if (mounted) {
-      Navigator.of(context).pushReplacement(
-        PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              const AppShell(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(
-              opacity: animation,
-              child: ScaleTransition(
-                scale: Tween<double>(begin: 0.95, end: 1.0).animate(
-                  CurvedAnimation(
-                    parent: animation,
-                    curve: Curves.easeOutCubic,
-                  ),
-                ),
-                child: child,
-              ),
-            );
-          },
-          transitionDuration: const Duration(milliseconds: 600),
-        ),
-      );
+      Navigator.of(context).pushReplacementNamed(AppRoutes.campaignList);
     }
   }
 

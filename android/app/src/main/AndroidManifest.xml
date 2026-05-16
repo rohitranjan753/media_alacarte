@@ -1,4 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Permission for notifications on Android 13+ (API 33+) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
+    <!-- Permission for vibration in notifications -->
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <!-- Permission for internet access (required for API calls) -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:label="media_alacarte"
         android:name="${applicationName}"

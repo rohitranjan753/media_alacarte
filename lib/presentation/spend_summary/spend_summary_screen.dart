@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/constants/app_colors.dart';
+import '../../core/router/app_router.dart';
 import '../../core/utils/formatters.dart';
 import '../../data/models/summary.dart';
 import '../../data/repositories/campaign_repository.dart';
@@ -8,7 +9,6 @@ import '../../injection.dart';
 import '../../shared/widgets/empty_state_view.dart';
 import '../../shared/widgets/error_view.dart';
 import '../../shared/widgets/shimmer_layouts.dart';
-import '../campaign_detail/campaign_detail_screen.dart';
 import 'bloc/spend_summary_bloc.dart';
 import 'bloc/spend_summary_event.dart';
 import 'bloc/spend_summary_state.dart';
@@ -206,30 +206,8 @@ class _BodyState extends State<_Body> {
                                   campaign: top3[i],
                                   rank: i + 1,
                                   maxCtr: maxCtr,
-                                  onTap: () => Navigator.of(context).push(
-                                    PageRouteBuilder(
-                                      pageBuilder: (context, animation,
-                                              secondaryAnimation) =>
-                                          CampaignDetailScreen(
-                                        campaignId: top3[i].id,
-                                      ),
-                                      transitionsBuilder: (context, animation,
-                                          secondaryAnimation, child) {
-                                        return FadeTransition(
-                                          opacity: animation,
-                                          child: SlideTransition(
-                                            position: Tween<Offset>(
-                                              begin: const Offset(1.0, 0.0),
-                                              end: Offset.zero,
-                                            ).animate(CurvedAnimation(
-                                              parent: animation,
-                                              curve: Curves.easeInOut,
-                                            )),
-                                            child: child,
-                                          ),
-                                        );
-                                      },
-                                    ),
+                                  onTap: () => Navigator.of(context).pushNamed(
+                                    '${AppRoutes.campaignDetail}/${top3[i].id}',
                                   ),
                                 ),
                                 if (i < top3.length - 1)
