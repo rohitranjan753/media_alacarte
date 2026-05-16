@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../core/constants/app_colors.dart';
+import '../core/router/app_router.dart';
 import '../presentation/anomaly_alerts/anomaly_alerts_screen.dart';
 import '../presentation/campaign_list/campaign_list_screen.dart';
 import '../presentation/spend_summary/spend_summary_screen.dart';
@@ -84,8 +85,14 @@ class _TabNavigator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Navigator(
       key: navigatorKey,
-      onGenerateRoute: (_) =>
-          MaterialPageRoute(builder: (_) => root),
+      onGenerateRoute: (settings) {
+        // If it's the initial route, show the root widget
+        if (settings.name == null || settings.name == '/') {
+          return MaterialPageRoute(builder: (_) => root);
+        }
+        // Otherwise, use the app's route generator
+        return onGenerateRoute(settings);
+      },
     );
   }
 }

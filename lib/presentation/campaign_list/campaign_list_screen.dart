@@ -186,16 +186,6 @@ class _CampaignListViewState extends State<_CampaignListView>
             }
 
             if (state is CampaignListLoaded) {
-              final counts = {
-                'all': state.allCampaigns.length,
-                'active': state.allCampaigns
-                    .where((c) => c.status.toLowerCase() == 'active')
-                    .length,
-                'paused': state.allCampaigns
-                    .where((c) => c.status.toLowerCase() == 'paused')
-                    .length,
-              };
-
               return RefreshIndicator(
                 color: AppColors.primary,
                 backgroundColor: AppColors.surface,
@@ -254,7 +244,7 @@ class _CampaignListViewState extends State<_CampaignListView>
                           padding: const EdgeInsets.only(bottom: 8),
                           child: FilterBar(
                             selected: state.filter,
-                            campaignCounts: counts,
+                            campaignCounts: state.campaignCounts,
                             onFilterChanged: (filter) => context
                                 .read<CampaignListBloc>()
                                 .add(FilterCampaigns(filter)),

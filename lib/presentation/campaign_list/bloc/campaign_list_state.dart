@@ -31,6 +31,17 @@ class CampaignListLoaded extends CampaignListState {
   final String searchQuery;
   final bool isRefreshing;
 
+  /// Computed property: Campaign counts by status
+  Map<String, int> get campaignCounts => {
+        'all': allCampaigns.length,
+        'active': allCampaigns
+            .where((c) => c.status.toLowerCase() == 'active')
+            .length,
+        'paused': allCampaigns
+            .where((c) => c.status.toLowerCase() == 'paused')
+            .length,
+      };
+
   CampaignListLoaded copyWith({
     List<Campaign>? allCampaigns,
     List<Campaign>? campaigns,

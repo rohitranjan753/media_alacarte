@@ -32,6 +32,19 @@ class SpendSummaryLoaded extends SpendSummaryState {
   final Summary summary;
   final DateRangeOption selectedRange;
 
+  /// Computed property: Top 3 campaigns sorted by CTR descending
+  List<TopCampaign> get top3Campaigns {
+    final sorted = [...summary.topCampaigns]
+      ..sort((a, b) => b.ctr.compareTo(a.ctr));
+    return sorted.take(3).toList();
+  }
+
+  /// Computed property: Maximum CTR from top campaigns
+  double get maxCtr {
+    final top3 = top3Campaigns;
+    return top3.isEmpty ? 1.0 : top3.first.ctr;
+  }
+
   @override
   List<Object?> get props => [summary, selectedRange];
 }

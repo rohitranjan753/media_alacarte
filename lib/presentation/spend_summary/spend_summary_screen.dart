@@ -43,9 +43,16 @@ class _SpendSummaryView extends StatelessWidget {
           if (state is SpendSummaryLoading && state.previousSummary != null) {
             final summary = state.previousSummary!;
             final range = state.selectedRange ?? DateRangeOption.last30;
+            // Compute top3 and maxCtr for loading state
+            final sorted = [...summary.topCampaigns]
+              ..sort((a, b) => b.ctr.compareTo(a.ctr));
+            final top3 = sorted.take(3).toList();
+            final maxCtr = top3.isEmpty ? 1.0 : top3.first.ctr;
             return _Body(
               summary: summary,
               selectedRange: range,
+              top3Campaigns: top3,
+              maxCtr: maxCtr,
               isRefreshing: true,
             );
           }
@@ -67,6 +74,8 @@ class _SpendSummaryView extends StatelessWidget {
             return _Body(
               summary: state.summary,
               selectedRange: state.selectedRange,
+              top3Campaigns: state.top3Campaigns,
+              maxCtr: state.maxCtr,
             );
           }
 
@@ -81,11 +90,15 @@ class _Body extends StatefulWidget {
   const _Body({
     required this.summary,
     required this.selectedRange,
+    required this.top3Campaigns,
+    required this.maxCtr,
     this.isRefreshing = false,
   });
 
   final Summary summary;
   final DateRangeOption selectedRange;
+  final List<TopCampaign> top3Campaigns;
+  final double maxCtr;
   final bool isRefreshing;
 
   @override
@@ -100,12 +113,6 @@ class _BodyState extends State<_Body> {
 
   @override
   Widget build(BuildContext context) {
-    // Sort top campaigns by CTR descending, take top 3
-    final sorted = [...widget.summary.topCampaigns]
-      ..sort((a, b) => b.ctr.compareTo(a.ctr));
-    final top3 = sorted.take(3).toList();
-    final maxCtr = top3.isEmpty ? 1.0 : top3.first.ctr;
-
     return Stack(
       children: [
         // Floating decorative particles
@@ -191,7 +198,7 @@ class _BodyState extends State<_Body> {
                   },
                   child: _SectionCard(
                     title: 'Top Performers by CTR',
-                    child: top3.isEmpty
+                    child: widget.top3Campaigns.isEmpty
                         ? const EmptyStateView(
                             title: 'No data',
                             message: 'No campaign data available',
@@ -201,16 +208,16 @@ class _BodyState extends State<_Body> {
                           )
                         : Column(
                             children: [
-                              for (int i = 0; i < top3.length; i++) ...[
+                              for (int i = 0; i < widget.top3Campaigns.length; i++) ...[
                                 TopCampaignTile(
-                                  campaign: top3[i],
+                                  campaign: widget.top3Campaigns[i],
                                   rank: i + 1,
-                                  maxCtr: maxCtr,
+                                  maxCtr: widget.maxCtr,
                                   onTap: () => Navigator.of(context).pushNamed(
-                                    '${AppRoutes.campaignDetail}/${top3[i].id}',
+                                    '${AppRoutes.campaignDetail}/${widget.top3Campaigns[i].id}',
                                   ),
                                 ),
-                                if (i < top3.length - 1)
+                                if (i < widget.top3Campaigns.length - 1)
                                   const Divider(
                                     color: AppColors.cardBorder,
                                     height: 1,

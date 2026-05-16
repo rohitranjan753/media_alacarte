@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'data/services/onboarding_service.dart';
 import 'injection.dart';
@@ -15,6 +16,7 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.dark,
       darkTheme: AppTheme.dark,
+      onGenerateRoute: onGenerateRoute,
       home: const _InitialScreen(),
     );
   }
