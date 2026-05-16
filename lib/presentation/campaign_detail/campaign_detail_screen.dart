@@ -92,6 +92,15 @@ class _CampaignDetailView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _KpiRow(campaign: c),
+                        const SizedBox(height: 8),
+                        if (c.conversions != null ||
+                            c.costPerClick != null ||
+                            c.costPerConversion != null)
+                          _ConversionMetricsRow(campaign: c),
+                        const SizedBox(height: 16),
+                        if (c.targetAudience != null)
+                          _TargetAudienceCard(
+                              targetAudience: c.targetAudience!),
                         const SizedBox(height: 16),
                         _ChartCard(state: state),
                         const SizedBox(height: 16),
@@ -949,6 +958,265 @@ class _PulsingStatusBadgeState extends State<_PulsingStatusBadge>
           ),
         );
       },
+    );
+  }
+}
+
+// ── Conversion Metrics Row ───────────────────────────────────────────────────
+
+class _ConversionMetricsRow extends StatelessWidget {
+  const _ConversionMetricsRow({required this.campaign});
+
+  final Campaign campaign;
+
+  @override
+  Widget build(BuildContext context) {
+    final metrics = <Widget>[];
+
+    if (campaign.conversions != null) {
+      metrics.add(
+        Expanded(
+          child: _AnimatedKpiCard(
+            index: metrics.length,
+            icon: Icons.check_circle_outline,
+            value: formatCompact(campaign.conversions!),
+            label: 'Conversions',
+            valueColor: AppColors.statusActive,
+          ),
+        ),
+      );
+    }
+
+    if (campaign.conversions != null && campaign.clicks > 0) {
+      metrics.add(
+        Expanded(
+          child: _AnimatedKpiCard(
+            index: metrics.length,
+            icon: Icons.trending_up,
+            value: formatCTR(campaign.conversionRate),
+            label: 'Conv. Rate',
+            valueColor: AppColors.primary,
+          ),
+        ),
+      );
+    }
+
+    if (campaign.costPerClick != null) {
+      metrics.add(
+        Expanded(
+          child: _AnimatedKpiCard(
+            index: metrics.length,
+            icon: Icons.payments_outlined,
+            value: campaign.costPerClick!.toStringAsFixed(2),
+            label: 'Cost/Click',
+          ),
+        ),
+      );
+    }
+
+    if (campaign.costPerConversion != null) {
+      metrics.add(
+        Expanded(
+          child: _AnimatedKpiCard(
+            index: metrics.length,
+            icon: Icons.attach_money_outlined,
+            value: campaign.costPerConversion!.toStringAsFixed(2),
+            label: 'Cost/Conv.',
+          ),
+        ),
+      );
+    }
+
+    if (metrics.isEmpty) return const SizedBox.shrink();
+
+    return Row(
+      children: [
+        for (int i = 0; i < metrics.length; i++) ...[
+          metrics[i],
+          if (i < metrics.length - 1) const SizedBox(width: 8),
+        ],
+      ],
+    );
+  }
+}
+
+// ── Target Audience Card ─────────────────────────────────────────────────────
+
+class _TargetAudienceCard extends StatefulWidget {
+  const _TargetAudienceCard({required this.targetAudience});
+
+  final TargetAudience targetAudience;
+
+  @override
+  State<_TargetAudienceCard> createState() => _TargetAudienceCardState();
+}
+
+class _TargetAudienceCardState extends State<_TargetAudienceCard>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    );
+
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.0, 0.6, curve: Curves.easeOut),
+      ),
+    );
+
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 0.3),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.0, 1.0, curve: Curves.easeOutCubic),
+      ),
+    );
+
+    Future.delayed(const Duration(milliseconds: 150), () {
+      if (mounted) {
+        _controller.forward();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SlideTransition(
+      position: _slideAnimation,
+      child: FadeTransition(
+        opacity: _fadeAnimation,
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: AppColors.surface,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppColors.cardBorder),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(
+                      Icons.people_outline,
+                      color: AppColors.primary,
+                      size: 16,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  const Text(
+                    'Target Audience',
+                    style: TextStyle(
+                      color: AppColors.textPrimary,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              if (widget.targetAudience.ageRange != null) ...[
+                _InfoRow(
+                  icon: Icons.calendar_today_outlined,
+                  label: 'Age Range',
+                  value: widget.targetAudience.ageRange!,
+                ),
+                const SizedBox(height: 12),
+              ],
+              if (widget.targetAudience.regions != null &&
+                  widget.targetAudience.regions!.isNotEmpty) ...[
+                _InfoRow(
+                  icon: Icons.location_on_outlined,
+                  label: 'Regions',
+                  value: widget.targetAudience.regions!.join(', '),
+                ),
+                const SizedBox(height: 12),
+              ],
+              if (widget.targetAudience.interests != null &&
+                  widget.targetAudience.interests!.isNotEmpty)
+                _InfoRow(
+                  icon: Icons.interests_outlined,
+                  label: 'Interests',
+                  value: widget.targetAudience.interests!.join(', '),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _InfoRow extends StatelessWidget {
+  const _InfoRow({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
+
+  final IconData icon;
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(
+          icon,
+          color: AppColors.textSecondary,
+          size: 16,
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: const TextStyle(
+                  color: AppColors.textSecondary,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                value,
+                style: const TextStyle(
+                  color: AppColors.textPrimary,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

@@ -7,12 +7,12 @@ class StatsCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             AppTexts.yourPerformance,
             style: TextStyle(
               color: AppColors.textPrimary,
@@ -20,23 +20,23 @@ class StatsCards extends StatelessWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Row(
             children: [
               Expanded(
                 child: _StatCard(
                   icon: Icons.campaign_rounded,
-                  iconColor: const Color(0xFF3B82F6),
+                  iconColor: Color(0xFF3B82F6),
                   label: AppTexts.campaigns,
                   value: AppTexts.campaignsCount,
                   subtitle: AppTexts.active,
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12),
               Expanded(
                 child: _StatCard(
                   icon: Icons.trending_up_rounded,
-                  iconColor: const Color(0xFF10B981),
+                  iconColor: Color(0xFF10B981),
                   label: AppTexts.totalSpend,
                   value: AppTexts.totalSpendValue,
                   subtitle: AppTexts.thisMonth,
@@ -44,7 +44,7 @@ class StatsCards extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Row(
             children: [
               Expanded(
@@ -56,11 +56,11 @@ class StatsCards extends StatelessWidget {
                   subtitle: AppTexts.total,
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12),
               Expanded(
                 child: _StatCard(
                   icon: Icons.mouse_rounded,
-                  iconColor: const Color(0xFFF59E0B),
+                  iconColor: Color(0xFFF59E0B),
                   label: AppTexts.clickRate,
                   value: AppTexts.clickRateValue,
                   subtitle: AppTexts.averageCtr,
@@ -68,7 +68,7 @@ class StatsCards extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24),
         ],
       ),
     );
@@ -118,7 +118,7 @@ class _StatCard extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              Icon(
+              const Icon(
                 Icons.arrow_forward_ios_rounded,
                 color: AppColors.textSecondary,
                 size: 12,

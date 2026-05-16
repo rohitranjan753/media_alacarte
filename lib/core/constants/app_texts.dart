@@ -76,4 +76,13 @@ class AppTexts {
       'Are you sure you want to logout? You will need to login again to access the dashboard.';
   static const String cancel = 'Cancel';
   static const String loggedOutSuccess = 'Logged out successfully';
+
+  // ── Campaign List Screen ─────────────────────────────────────────────────
+  static const String campaignsTitle = 'Campaigns';
+  static const String campaign = 'Campaign';
+  static const String noCampaigns = 'No campaigns';
+  static const String noCampaignsFound = 'No campaigns found';
+  static const String noCampaignsSubtitle =
+      'There are no campaigns to display. Start by creating a new campaign.';
+  static const String searchCampaigns = 'Search campaigns...';
 }
