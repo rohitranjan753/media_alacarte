@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/extensions/theme_extensions.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../data/models/summary.dart';
@@ -62,7 +63,7 @@ class TopCampaignTile extends StatelessWidget {
               child: Center(
                 child: Text(
                   '$rank',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.primary,
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
@@ -95,8 +96,8 @@ class TopCampaignTile extends StatelessWidget {
                 children: [
                   Text(
                     campaign.name,
-                    style: const TextStyle(
-                      color: AppColors.textPrimary,
+                    style: TextStyle(
+                      color: context.textPrimary,
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                     ),
@@ -106,8 +107,8 @@ class TopCampaignTile extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     formatCurrency(campaign.spend),
-                    style: const TextStyle(
-                      color: AppColors.textSecondary,
+                    style: TextStyle(
+                      color: context.textSecondary,
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                     ),
@@ -121,7 +122,7 @@ class TopCampaignTile extends StatelessWidget {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(
+                Icon(
                   Icons.arrow_upward_rounded,
                   color: Color(0xFF10B981),
                   size: 16,
@@ -129,7 +130,7 @@ class TopCampaignTile extends StatelessWidget {
                 const SizedBox(width: 4),
                 Text(
                   formatCTR(campaign.ctr),
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xFF10B981),
                     fontSize: 14,
                     fontWeight: FontWeight.w700,

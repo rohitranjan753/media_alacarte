@@ -1,4 +1,5 @@
 import 'dart:async';
+import '../../core/extensions/theme_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/constants/app_colors.dart';
@@ -53,9 +54,9 @@ class _AnomalyAlertsViewState extends State<_AnomalyAlertsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('Anomaly Alerts'),
+        title: Text('Anomaly Alerts'),
         actions: [
           BlocBuilder<AnomalyBloc, AnomalyState>(
             builder: (context, state) {
@@ -74,7 +75,7 @@ class _AnomalyAlertsViewState extends State<_AnomalyAlertsView> {
                     ),
                     child: Text(
                       '$count',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.alertSpend,
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
@@ -108,7 +109,7 @@ class _AnomalyAlertsViewState extends State<_AnomalyAlertsView> {
                 if (state is AnomalyPolling) {
                   return RefreshIndicator(
                     color: AppColors.primary,
-                    backgroundColor: AppColors.surface,
+                    backgroundColor: Theme.of(context).colorScheme.surface,
                     onRefresh: _onRefresh,
                     child: CustomScrollView(
                       physics: const AlwaysScrollableScrollPhysics(),
@@ -117,7 +118,7 @@ class _AnomalyAlertsViewState extends State<_AnomalyAlertsView> {
                         const SliverToBoxAdapter(child: _HeaderSection()),
 
                         // Recent Anomalies Title
-                        const SliverToBoxAdapter(
+                         SliverToBoxAdapter(
                           child: Padding(
                             padding: EdgeInsets.fromLTRB(16, 24, 16, 12),
                             child: Row(
@@ -125,7 +126,7 @@ class _AnomalyAlertsViewState extends State<_AnomalyAlertsView> {
                                 Text(
                                   'Recent Anomalies',
                                   style: TextStyle(
-                                    color: AppColors.textPrimary,
+                                    color: context.textPrimary,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
                                   ),
@@ -133,14 +134,14 @@ class _AnomalyAlertsViewState extends State<_AnomalyAlertsView> {
                                 Spacer(),
                                 Icon(
                                   Icons.swipe_down_rounded,
-                                  color: AppColors.textSecondary,
+                                  color: context.textSecondary,
                                   size: 16,
                                 ),
                                 SizedBox(width: 4),
                                 Text(
                                   'Pull to refresh',
                                   style: TextStyle(
-                                    color: AppColors.textSecondary,
+                                    color: context.textSecondary,
                                     fontSize: 11,
                                     fontWeight: FontWeight.w400,
                                   ),
@@ -272,10 +273,10 @@ class _StatusBarState extends State<_StatusBar>
             return Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              decoration: const BoxDecoration(
-                color: AppColors.surface,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
                 border: Border(
-                  bottom: BorderSide(color: AppColors.cardBorder),
+                  bottom: BorderSide(color: context.cardBorderColor),
                 ),
               ),
               child: Row(
@@ -305,8 +306,8 @@ class _StatusBarState extends State<_StatusBar>
                       children: [
                         Text(
                           label,
-                          style: const TextStyle(
-                            color: AppColors.textPrimary,
+                          style: TextStyle(
+                            color: context.textPrimary,
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                           ),
@@ -314,8 +315,8 @@ class _StatusBarState extends State<_StatusBar>
                         const SizedBox(height: 2),
                         Text(
                           'Current time: ${_pad(now.hour)}:${_pad(now.minute)}:${_pad(now.second)}',
-                          style: const TextStyle(
-                            color: AppColors.textSecondary,
+                          style: TextStyle(
+                            color: context.textSecondary,
                             fontSize: 11,
                             fontWeight: FontWeight.w400,
                           ),
@@ -334,7 +335,7 @@ class _StatusBarState extends State<_StatusBar>
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.refresh_rounded,
                             color: AppColors.primary,
                             size: 14,
@@ -342,7 +343,7 @@ class _StatusBarState extends State<_StatusBar>
                           const SizedBox(width: 4),
                           Text(
                             countdown,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: AppColors.primary,
                               fontSize: 12,
                               fontWeight: FontWeight.w700,
@@ -352,10 +353,10 @@ class _StatusBarState extends State<_StatusBar>
                       ),
                     ),
                   ] else
-                    const Text(
+                    Text(
                       'Updates every 30s',
                       style: TextStyle(
-                        color: AppColors.textSecondary,
+                        color: context.textSecondary,
                         fontSize: 11,
                       ),
                     ),
@@ -380,9 +381,9 @@ class _HeaderSection extends StatelessWidget {
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: context.cardBorderColor),
       ),
       child: Row(
         children: [
@@ -393,21 +394,21 @@ class _HeaderSection extends StatelessWidget {
               color: AppColors.primary.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.monitor_heart_outlined,
               color: AppColors.primary,
               size: 22,
             ),
           ),
           const SizedBox(width: 14),
-          const Expanded(
+           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Monitoring in real-time',
                   style: TextStyle(
-                    color: AppColors.textPrimary,
+                    color: context.textPrimary,
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                   ),
@@ -416,7 +417,7 @@ class _HeaderSection extends StatelessWidget {
                 Text(
                   'Polling Dds API every 30 seconds',
                   style: TextStyle(
-                    color: AppColors.textSecondary,
+                    color: context.textSecondary,
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
                   ),
@@ -545,12 +546,12 @@ class _NotificationToggleState extends State<_NotificationToggle> {
     final result = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: AppColors.surface,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: AppColors.cardBorder),
+          side: BorderSide(color: context.cardBorderColor),
         ),
-        title: const Row(
+        title:  Row(
           children: [
             Icon(
               Icons.notifications_active_outlined,
@@ -561,21 +562,21 @@ class _NotificationToggleState extends State<_NotificationToggle> {
             Text(
               'Enable Notifications',
               style: TextStyle(
-                color: AppColors.textPrimary,
+                color: context.textPrimary,
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
               ),
             ),
           ],
         ),
-        content: const Column(
+        content:  Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'Stay informed about your campaigns',
               style: TextStyle(
-                color: AppColors.textPrimary,
+                color: context.textPrimary,
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
               ),
@@ -584,7 +585,7 @@ class _NotificationToggleState extends State<_NotificationToggle> {
             Text(
               'We\'ll notify you when anomalies are detected, such as:',
               style: TextStyle(
-                color: AppColors.textSecondary,
+                color: context.textSecondary,
                 fontSize: 13,
               ),
             ),
@@ -611,10 +612,10 @@ class _NotificationToggleState extends State<_NotificationToggle> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text(
+            child: Text(
               'Cancel',
               style: TextStyle(
-                color: AppColors.textSecondary,
+                color: context.textSecondary,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -629,7 +630,7 @@ class _NotificationToggleState extends State<_NotificationToggle> {
               ),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             ),
-            child: const Text(
+            child: Text(
               'Enable',
               style: TextStyle(
                 fontWeight: FontWeight.w700,
@@ -654,10 +655,10 @@ class _NotificationToggleState extends State<_NotificationToggle> {
               duration: const Duration(milliseconds: 200),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: enabled ? AppColors.primary : AppColors.cardBorder,
+                  color: enabled ? AppColors.primary : context.cardBorderColor,
                 ),
               ),
               child: Row(
@@ -669,7 +670,7 @@ class _NotificationToggleState extends State<_NotificationToggle> {
                     decoration: BoxDecoration(
                       color: enabled
                           ? AppColors.primary.withValues(alpha: 0.15)
-                          : AppColors.cardBorder,
+                          : context.cardBorderColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: isLoading
@@ -686,19 +687,19 @@ class _NotificationToggleState extends State<_NotificationToggle> {
                                 : Icons.notifications_off_outlined,
                             color: enabled
                                 ? AppColors.primary
-                                : AppColors.textSecondary,
+                                : context.textSecondary,
                             size: 22,
                           ),
                   ),
                   const SizedBox(width: 14),
-                  const Expanded(
+                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Enable Push Notifications',
                           style: TextStyle(
-                            color: AppColors.textPrimary,
+                            color: context.textPrimary,
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
                           ),
@@ -707,7 +708,7 @@ class _NotificationToggleState extends State<_NotificationToggle> {
                         Text(
                           'Get notified when new anomalies are detected',
                           style: TextStyle(
-                            color: AppColors.textSecondary,
+                            color: context.textSecondary,
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
                           ),
@@ -763,8 +764,8 @@ class _PermissionBullet extends StatelessWidget {
         Expanded(
           child: Text(
             text,
-            style: const TextStyle(
-              color: AppColors.textSecondary,
+            style: TextStyle(
+              color: context.textSecondary,
               fontSize: 13,
               fontWeight: FontWeight.w500,
             ),

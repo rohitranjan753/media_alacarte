@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/extensions/theme_extensions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/router/app_router.dart';
@@ -35,8 +36,8 @@ class _SpendSummaryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(title: const Text('Spend Summary')),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(title: Text('Spend Summary')),
       body: BlocBuilder<SpendSummaryBloc, SpendSummaryState>(
         builder: (context, state) {
           // While re-fetching for a new range, keep showing stale data + spinner
@@ -121,7 +122,7 @@ class _BodyState extends State<_Body> {
         // Main content with refresh
         RefreshIndicator(
           color: AppColors.primary,
-          backgroundColor: AppColors.surface,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           onRefresh: _onRefresh,
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
@@ -218,8 +219,8 @@ class _BodyState extends State<_Body> {
                                   ),
                                 ),
                                 if (i < widget.top3Campaigns.length - 1)
-                                  const Divider(
-                                    color: AppColors.cardBorder,
+                                  Divider(
+                                    color: context.cardBorderColor,
                                     height: 1,
                                     thickness: 1,
                                   ),
@@ -250,9 +251,9 @@ class _BodyState extends State<_Body> {
                 ),
               );
             },
-            child: const LinearProgressIndicator(
+            child:  LinearProgressIndicator(
               color: AppColors.primary,
-              backgroundColor: AppColors.cardBorder,
+              backgroundColor: context.cardBorderColor,
               minHeight: 3,
             ),
           ),
@@ -293,13 +294,13 @@ class _DateRangePicker extends StatelessWidget {
             if (states.contains(WidgetState.selected)) {
               return AppColors.primary;
             }
-            return AppColors.textSecondary;
+            return context.textSecondary;
           }),
           side: WidgetStateProperty.all(
-            const BorderSide(color: AppColors.cardBorder),
+            BorderSide(color: context.cardBorderColor),
           ),
           textStyle: WidgetStateProperty.all(
-            const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+            TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
           ),
         ),
         showSelectedIcon: false,
@@ -320,9 +321,9 @@ class _SectionCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: context.cardBorderColor),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),
@@ -336,8 +337,8 @@ class _SectionCard extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(
-              color: AppColors.textPrimary,
+            style: TextStyle(
+              color: context.textPrimary,
               fontSize: 15,
               fontWeight: FontWeight.w700,
               letterSpacing: 0.3,

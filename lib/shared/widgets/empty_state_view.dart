@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/extensions/theme_extensions.dart';
 import '../../core/constants/app_colors.dart';
 
 class EmptyStateView extends StatelessWidget {
@@ -27,7 +28,7 @@ class EmptyStateView extends StatelessWidget {
             Text(
               title ?? 'No data',
               style: TextStyle(
-                color: AppColors.textSecondary.withValues(alpha: 0.7),
+                color: context.textSecondary.withValues(alpha: 0.7),
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
                 letterSpacing: 0.5,
@@ -40,12 +41,12 @@ class EmptyStateView extends StatelessWidget {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: AppColors.cardBorder,
+                color: context.cardBorderColor,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(
                 icon ?? Icons.inventory_2_outlined,
-                color: AppColors.textSecondary.withValues(alpha: 0.5),
+                color: context.textSecondary.withValues(alpha: 0.5),
                 size: 40,
               ),
             ),
@@ -55,8 +56,8 @@ class EmptyStateView extends StatelessWidget {
             Text(
               message ?? 'No data available',
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: AppColors.textPrimary,
+              style: TextStyle(
+                color: context.textPrimary,
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),
@@ -68,7 +69,7 @@ class EmptyStateView extends StatelessWidget {
               subtitle ?? 'There is no data to display for this period.',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: AppColors.textSecondary.withValues(alpha: 0.8),
+                color: context.textSecondary.withValues(alpha: 0.8),
                 fontSize: 14,
                 height: 1.5,
               ),

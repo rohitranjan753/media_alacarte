@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import '../../../core/extensions/theme_extensions.dart';
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/formatters.dart';
@@ -55,7 +56,7 @@ class _SpendDonutChartState extends State<SpendDonutChart>
 
   Color _colorFor(String channel) {
     final idx = _channelOrder.indexOf(channel);
-    if (idx == -1) return AppColors.textSecondary;
+    if (idx == -1) return context.textSecondary;
     return _channelColors[idx];
   }
 
@@ -115,7 +116,7 @@ class _SpendDonutChartState extends State<SpendDonutChart>
                         ),
                       ],
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.trending_up_rounded,
                       color: Colors.white,
                       size: 16,
@@ -189,10 +190,10 @@ class _SpendDonutChartState extends State<SpendDonutChart>
                             size: 24,
                           ),
                           const SizedBox(height: 8),
-                          const Text(
+                          Text(
                             'Total Spend',
                             style: TextStyle(
-                              color: AppColors.textSecondary,
+                              color: context.textSecondary,
                               fontSize: 11,
                               fontWeight: FontWeight.w500,
                               letterSpacing: 0.5,
@@ -209,8 +210,8 @@ class _SpendDonutChartState extends State<SpendDonutChart>
                             builder: (context, value, child) {
                               return Text(
                                 formatCurrency(value),
-                                style: const TextStyle(
-                                  color: AppColors.textPrimary,
+                                style: TextStyle(
+                                  color: context.textPrimary,
                                   fontSize: 20,
                                   fontWeight: FontWeight.w700,
                                   letterSpacing: 0.5,
@@ -336,14 +337,14 @@ class _AnimatedLegendItemState extends State<_AnimatedLegendItem>
                 color: widget.isSelected
                     ? widget.color.withValues(alpha: 0.15)
                     : _isHovered
-                        ? AppColors.cardBorder
+                        ? context.cardBorderColor
                         : Colors.transparent,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
                   color: widget.isSelected
                       ? widget.color
                       : _isHovered
-                          ? AppColors.cardBorder
+                          ? context.cardBorderColor
                           : Colors.transparent,
                   width: widget.isSelected ? 2 : 1,
                 ),
@@ -379,7 +380,7 @@ class _AnimatedLegendItemState extends State<_AnimatedLegendItem>
                         style: TextStyle(
                           color: widget.isSelected
                               ? widget.color
-                              : AppColors.textPrimary,
+                              : context.textPrimary,
                           fontSize: 13,
                           fontWeight: widget.isSelected
                               ? FontWeight.w700
@@ -392,8 +393,8 @@ class _AnimatedLegendItemState extends State<_AnimatedLegendItem>
                         children: [
                           Text(
                             formatCurrency(widget.spend),
-                            style: const TextStyle(
-                              color: AppColors.textSecondary,
+                            style: TextStyle(
+                              color: context.textSecondary,
                               fontSize: 11,
                               fontWeight: FontWeight.w500,
                             ),

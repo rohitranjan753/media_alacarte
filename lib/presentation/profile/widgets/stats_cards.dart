@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/extensions/theme_extensions.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_texts.dart';
 
@@ -7,7 +8,7 @@ class StatsCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
+    return  Padding(
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -15,7 +16,7 @@ class StatsCards extends StatelessWidget {
           Text(
             AppTexts.yourPerformance,
             style: TextStyle(
-              color: AppColors.textPrimary,
+              color: context.textPrimary,
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),
@@ -95,9 +96,9 @@ class _StatCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: context.cardBorderColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,9 +119,9 @@ class _StatCard extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              const Icon(
+              Icon(
                 Icons.arrow_forward_ios_rounded,
-                color: AppColors.textSecondary,
+                color: context.textSecondary,
                 size: 12,
               ),
             ],
@@ -128,8 +129,8 @@ class _StatCard extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             label,
-            style: const TextStyle(
-              color: AppColors.textSecondary,
+            style: TextStyle(
+              color: context.textSecondary,
               fontSize: 11,
               fontWeight: FontWeight.w500,
             ),
@@ -137,8 +138,8 @@ class _StatCard extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             value,
-            style: const TextStyle(
-              color: AppColors.textPrimary,
+            style: TextStyle(
+              color: context.textPrimary,
               fontSize: 20,
               fontWeight: FontWeight.w700,
             ),
@@ -147,7 +148,7 @@ class _StatCard extends StatelessWidget {
           Text(
             subtitle,
             style: TextStyle(
-              color: AppColors.textSecondary.withValues(alpha: 0.7),
+              color: context.textSecondary.withValues(alpha: 0.7),
               fontSize: 10,
               fontWeight: FontWeight.w400,
             ),

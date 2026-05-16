@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/extensions/theme_extensions.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../data/models/daily_metric.dart';
 import '../../../data/models/forecast_point.dart';
@@ -61,7 +62,7 @@ class BudgetRecommendationCard extends StatelessWidget {
         color: isPositive ? null : AppColors.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: isPositive ? accentColor.withValues(alpha: 0.3) : AppColors.cardBorder,
+          color: isPositive ? accentColor.withValues(alpha: 0.3) : context.cardBorderColor,
           width: isPositive ? 2 : 1,
         ),
         boxShadow: isPositive
@@ -114,7 +115,7 @@ class BudgetRecommendationCard extends StatelessWidget {
                 Text(
                   headline,
                   style: TextStyle(
-                    color: isPositive ? accentColor : AppColors.textPrimary,
+                    color: isPositive ? accentColor : context.textPrimary,
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
                   ),
@@ -122,8 +123,8 @@ class BudgetRecommendationCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   subtext,
-                  style: const TextStyle(
-                    color: AppColors.textSecondary,
+                  style: TextStyle(
+                    color: context.textSecondary,
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
                   ),

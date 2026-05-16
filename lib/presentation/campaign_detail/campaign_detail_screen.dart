@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/extensions/theme_extensions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/utils/formatters.dart';
@@ -52,15 +53,15 @@ class _CampaignDetailView extends StatelessWidget {
         if (state is CampaignDetailLoading ||
             state is CampaignDetailInitial) {
           return Scaffold(
-            backgroundColor: AppColors.background,
-            appBar: AppBar(title: const Text('Campaign Detail')),
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            appBar: AppBar(title: Text('Campaign Detail')),
             body: const CampaignDetailShimmer(),
           );
         }
 
         if (state is CampaignDetailError) {
           return Scaffold(
-            appBar: AppBar(title: const Text('Campaign Detail')),
+            appBar: AppBar(title: Text('Campaign Detail')),
             body: ErrorView(
               message: state.message,
               onRetry: () => context
@@ -72,10 +73,12 @@ class _CampaignDetailView extends StatelessWidget {
 
         if (state is CampaignDetailLoaded) {
           final c = state.campaign;
-          return Scaffold(
-            backgroundColor: AppColors.background,
-            appBar: _buildAppBar(c),
-            body: Stack(
+          return Hero(
+            tag: 'campaign_card_${c.id}',
+            child: Scaffold(
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              appBar: _buildAppBar(context, c),
+              body: Stack(
               children: [
                 // Floating decorative particles
                 const _FloatingParticles(),
@@ -83,7 +86,7 @@ class _CampaignDetailView extends StatelessWidget {
                 // Main content
                 RefreshIndicator(
                   color: AppColors.primary,
-                  backgroundColor: AppColors.surface,
+                  backgroundColor: Theme.of(context).colorScheme.surface,
                   onRefresh: () => _onRefresh(context),
                   child: SingleChildScrollView(
                     physics: const AlwaysScrollableScrollPhysics(),
@@ -116,7 +119,8 @@ class _CampaignDetailView extends StatelessWidget {
                 ),
               ],
             ),
-          );
+          ),
+        );
         }
 
         return const SizedBox.shrink();
@@ -124,7 +128,7 @@ class _CampaignDetailView extends StatelessWidget {
     );
   }
 
-  AppBar _buildAppBar(Campaign c) {
+  AppBar _buildAppBar(BuildContext context, Campaign c) {
     final statusColor = switch (c.status.toLowerCase()) {
       'active' => AppColors.statusActive,
       'paused' => AppColors.statusPaused,
@@ -138,7 +142,7 @@ class _CampaignDetailView extends StatelessWidget {
           Text(
             c.name,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
             ),
@@ -146,8 +150,8 @@ class _CampaignDetailView extends StatelessWidget {
           const SizedBox(height: 2),
           Text(
             '${formatDateFull(c.startDate)} - ${formatDateFull(c.endDate)}',
-            style: const TextStyle(
-              color: AppColors.textSecondary,
+            style: TextStyle(
+              color: context.textSecondary,
               fontSize: 11,
               fontWeight: FontWeight.w400,
             ),
@@ -165,9 +169,9 @@ class _CampaignDetailView extends StatelessWidget {
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             border: Border(
-              bottom: BorderSide(color: AppColors.cardBorder),
+              bottom: BorderSide(color: context.cardBorderColor),
             ),
           ),
           child: Row(
@@ -188,7 +192,7 @@ class _CampaignDetailView extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.flag_outlined,
                         color: AppColors.primary,
                         size: 12,
@@ -196,7 +200,7 @@ class _CampaignDetailView extends StatelessWidget {
                       const SizedBox(width: 5),
                       Text(
                         c.objective,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.primary,
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
@@ -214,22 +218,22 @@ class _CampaignDetailView extends StatelessWidget {
                     vertical: 5,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.cardBorder,
+                    color: context.cardBorderColor,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.campaign_outlined,
-                        color: AppColors.textSecondary,
+                        color: context.textSecondary,
                         size: 12,
                       ),
                       const SizedBox(width: 5),
                       Text(
                         c.channel,
-                        style: const TextStyle(
-                          color: AppColors.textSecondary,
+                        style: TextStyle(
+                          color: context.textSecondary,
                           fontSize: 11,
                           fontWeight: FontWeight.w500,
                         ),
@@ -427,7 +431,7 @@ class _AnimatedKpiCardState extends State<_AnimatedKpiCard>
                   color: _isHovered ? null : AppColors.surface,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: _isHovered ? AppColors.primary : AppColors.cardBorder,
+                    color: _isHovered ? AppColors.primary : context.cardBorderColor,
                     width: _isHovered ? 2 : 1,
                   ),
                   boxShadow: _isHovered
@@ -529,7 +533,7 @@ class _AnimatedKpiCardState extends State<_AnimatedKpiCard>
                           child: Text(
                             widget.value,
                             style: TextStyle(
-                              color: widget.valueColor ?? AppColors.textPrimary,
+                              color: widget.valueColor ?? context.textPrimary,
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
                               letterSpacing: 0.5,
@@ -539,8 +543,8 @@ class _AnimatedKpiCardState extends State<_AnimatedKpiCard>
                         const SizedBox(height: 4),
                         Text(
                           widget.label,
-                          style: const TextStyle(
-                            color: AppColors.textSecondary,
+                          style: TextStyle(
+                            color: context.textSecondary,
                             fontSize: 10,
                             fontWeight: FontWeight.w500,
                             letterSpacing: 0.3,
@@ -623,9 +627,9 @@ class _ChartCardState extends State<_ChartCard>
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.cardBorder),
+            border: Border.all(color: context.cardBorderColor),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -642,29 +646,29 @@ class _ChartCardState extends State<_ChartCard>
                           color: AppColors.primary.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.show_chart_rounded,
                           color: AppColors.primary,
                           size: 16,
                         ),
                       ),
                       const SizedBox(width: 10),
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'CTR Performance & Forecast',
                             style: TextStyle(
-                              color: AppColors.textPrimary,
+                              color: context.textPrimary,
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          SizedBox(height: 2),
+                          const SizedBox(height: 2),
                           Text(
                             'Historical data with ML prediction',
                             style: TextStyle(
-                              color: AppColors.textSecondary,
+                              color: context.textSecondary,
                               fontSize: 10,
                               fontWeight: FontWeight.w400,
                             ),
@@ -678,21 +682,21 @@ class _ChartCardState extends State<_ChartCard>
               ),
               const SizedBox(height: 16),
               if (widget.state.history.isEmpty)
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 40),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 40),
                   child: Center(
                     child: Column(
                       children: [
                         Icon(
                           Icons.insert_chart_outlined,
-                          color: AppColors.textSecondary,
+                          color: context.textSecondary,
                           size: 40,
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
                           'No history data available',
                           style: TextStyle(
-                            color: AppColors.textSecondary,
+                            color: context.textSecondary,
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                           ),
@@ -716,7 +720,7 @@ class _ChartCardState extends State<_ChartCard>
                   ),
                   child: Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.warning_amber_rounded,
                         color: AppColors.alertCTR,
                         size: 16,
@@ -725,8 +729,8 @@ class _ChartCardState extends State<_ChartCard>
                       Expanded(
                         child: Text(
                           'Forecast unavailable: ${widget.state.forecastError}',
-                          style: const TextStyle(
-                            color: AppColors.textSecondary,
+                          style: TextStyle(
+                            color: context.textSecondary,
                             fontSize: 11,
                             fontWeight: FontWeight.w500,
                           ),
@@ -754,24 +758,24 @@ class _DaysChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: AppColors.background,
+        color: context.backgroundColor,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: context.cardBorderColor),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             '$days Days',
-            style: const TextStyle(
-              color: AppColors.textSecondary,
+            style: TextStyle(
+              color: context.textSecondary,
               fontSize: 11,
               fontWeight: FontWeight.w500,
             ),
           ),
           const SizedBox(width: 4),
-          const Icon(Icons.keyboard_arrow_down,
-              color: AppColors.textSecondary, size: 14),
+          Icon(Icons.keyboard_arrow_down,
+              color: context.textSecondary, size: 14),
         ],
       ),
     );
@@ -1104,9 +1108,9 @@ class _TargetAudienceCardState extends State<_TargetAudienceCard>
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.cardBorder),
+            border: Border.all(color: context.cardBorderColor),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1120,17 +1124,17 @@ class _TargetAudienceCardState extends State<_TargetAudienceCard>
                       color: AppColors.primary.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.people_outline,
                       color: AppColors.primary,
                       size: 16,
                     ),
                   ),
                   const SizedBox(width: 10),
-                  const Text(
+                  Text(
                     'Target Audience',
                     style: TextStyle(
-                      color: AppColors.textPrimary,
+                      color: context.textPrimary,
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                     ),
@@ -1188,7 +1192,7 @@ class _InfoRow extends StatelessWidget {
       children: [
         Icon(
           icon,
-          color: AppColors.textSecondary,
+          color: context.textSecondary,
           size: 16,
         ),
         const SizedBox(width: 8),
@@ -1198,8 +1202,8 @@ class _InfoRow extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: const TextStyle(
-                  color: AppColors.textSecondary,
+                style: TextStyle(
+                  color: context.textSecondary,
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
                 ),
@@ -1207,8 +1211,8 @@ class _InfoRow extends StatelessWidget {
               const SizedBox(height: 2),
               Text(
                 value,
-                style: const TextStyle(
-                  color: AppColors.textPrimary,
+                style: TextStyle(
+                  color: context.textPrimary,
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/extensions/theme_extensions.dart';
 import '../../core/constants/app_colors.dart';
 import 'shimmer.dart';
 
@@ -13,9 +14,9 @@ class CampaignCardShimmer extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.cardBorder),
+          border: Border.all(color: context.cardBorderColor),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +58,7 @@ class CampaignCardShimmer extends StatelessWidget {
                 Container(
                   width: 1,
                   height: 40,
-                  color: AppColors.cardBorder,
+                  color: context.cardBorderColor,
                 ),
                 Expanded(
                   child: _ShimmerStat(),
@@ -65,7 +66,7 @@ class CampaignCardShimmer extends StatelessWidget {
                 Container(
                   width: 1,
                   height: 40,
-                  color: AppColors.cardBorder,
+                  color: context.cardBorderColor,
                 ),
                 Expanded(
                   child: _ShimmerStat(),
@@ -128,9 +129,9 @@ class CampaignDetailShimmer extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.cardBorder),
+                border: Border.all(color: context.cardBorderColor),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,9 +179,9 @@ class CampaignDetailShimmer extends StatelessWidget {
               height: 300,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.cardBorder),
+                border: Border.all(color: context.cardBorderColor),
               ),
               child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -202,9 +203,9 @@ class CampaignDetailShimmer extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.cardBorder),
+                border: Border.all(color: context.cardBorderColor),
               ),
               child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -248,9 +249,9 @@ class SpendSummaryShimmer extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.cardBorder),
+                border: Border.all(color: context.cardBorderColor),
               ),
               child: const Column(
                 children: [
@@ -268,9 +269,9 @@ class SpendSummaryShimmer extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.cardBorder),
+                border: Border.all(color: context.cardBorderColor),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -304,9 +305,9 @@ class SpendSummaryShimmer extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.cardBorder),
+                border: Border.all(color: context.cardBorderColor),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -369,9 +370,9 @@ class AnomalyAlertsShimmer extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 12),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.cardBorder),
+            border: Border.all(color: context.cardBorderColor),
           ),
           child: Row(
             children: [
@@ -423,9 +424,9 @@ class GenericListShimmer extends StatelessWidget {
           height: itemHeight,
           margin: const EdgeInsets.only(bottom: 12),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.cardBorder),
+            border: Border.all(color: context.cardBorderColor),
           ),
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../../core/extensions/theme_extensions.dart';
 
 class KpiCard extends StatelessWidget {
   const KpiCard({
@@ -23,9 +24,9 @@ class KpiCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: context.cardBorderColor),
       ),
       child: Row(
         children: [
@@ -45,8 +46,8 @@ class KpiCard extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: const TextStyle(
-                  color: AppColors.textSecondary,
+                style: TextStyle(
+                  color: context.textSecondary,
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
                 ),
@@ -55,7 +56,7 @@ class KpiCard extends StatelessWidget {
               Text(
                 value,
                 style: TextStyle(
-                  color: valueColor ?? AppColors.textPrimary,
+                  color: valueColor ?? context.textPrimary,
                   fontSize: 28,
                   fontWeight: FontWeight.w700,
                 ),
@@ -64,8 +65,8 @@ class KpiCard extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   subtitle!,
-                  style: const TextStyle(
-                    color: AppColors.textSecondary,
+                  style: TextStyle(
+                    color: context.textSecondary,
                     fontSize: 11,
                   ),
                 ),

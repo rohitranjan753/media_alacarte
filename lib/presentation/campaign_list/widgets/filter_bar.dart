@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/extensions/theme_extensions.dart';
 import '../../../core/constants/app_colors.dart';
 
 class FilterBar extends StatelessWidget {
@@ -88,7 +89,7 @@ class FilterBar extends StatelessWidget {
                   color: isSelected ? null : AppColors.surface,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: isSelected ? activeColor : AppColors.cardBorder,
+                    color: isSelected ? activeColor : context.cardBorderColor,
                     width: isSelected ? 2 : 1,
                   ),
                   boxShadow: isSelected
@@ -109,7 +110,7 @@ class FilterBar extends StatelessWidget {
                       duration: const Duration(milliseconds: 250),
                       child: Icon(
                         _getIcon(filter),
-                        color: isSelected ? activeColor : AppColors.textSecondary,
+                        color: isSelected ? activeColor : context.textSecondary,
                         size: 18,
                       ),
                     ),
@@ -117,7 +118,7 @@ class FilterBar extends StatelessWidget {
                     Text(
                       _labels[i],
                       style: TextStyle(
-                        color: isSelected ? activeColor : AppColors.textSecondary,
+                        color: isSelected ? activeColor : context.textSecondary,
                         fontSize: 14,
                         fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                         letterSpacing: 0.2,
@@ -134,7 +135,7 @@ class FilterBar extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: isSelected
                               ? activeColor
-                              : AppColors.cardBorder,
+                              : context.cardBorderColor,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
@@ -142,7 +143,7 @@ class FilterBar extends StatelessWidget {
                           style: TextStyle(
                             color: isSelected
                                 ? Colors.white
-                                : AppColors.textSecondary,
+                                : context.textSecondary,
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
                           ),

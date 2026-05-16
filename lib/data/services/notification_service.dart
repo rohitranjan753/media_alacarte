@@ -17,7 +17,9 @@ class NotificationService {
     );
     await _plugin.initialize(
       const InitializationSettings(
-          android: androidSettings, iOS: iosSettings),
+        android: androidSettings,
+        iOS: iosSettings,
+      ),
     );
 
     // Create Android notification channel
@@ -47,13 +49,14 @@ class NotificationService {
           sound: true,
         );
 
+
     // Request Android 13+ permissions
     final androidGranted = await _plugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
         ?.requestNotificationsPermission();
 
-    // Return true if either platform granted permission or if null (older Android)
+    // Return true if any platform granted permission or if null (older Android)
     return iosGranted ?? androidGranted ?? true;
   }
 
@@ -89,11 +92,15 @@ class NotificationService {
       priority: Priority.high,
     );
     const iosDetails = DarwinNotificationDetails();
+
     await _plugin.show(
       anomaly.detectedAt.millisecondsSinceEpoch ~/ 1000,
       _title(anomaly.type),
       anomaly.message,
-      const NotificationDetails(android: androidDetails, iOS: iosDetails),
+      const NotificationDetails(
+        android: androidDetails,
+        iOS: iosDetails,
+      ),
     );
   }
 

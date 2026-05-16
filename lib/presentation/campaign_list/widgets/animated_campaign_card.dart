@@ -79,9 +79,15 @@ class _AnimatedCampaignCardState extends State<AnimatedCampaignCard>
         opacity: _fadeAnimation,
         child: ScaleTransition(
           scale: _scaleAnimation,
-          child: CampaignCard(
-            campaign: widget.campaign,
-            onTap: widget.onTap,
+          child: Hero(
+            tag: 'campaign_card_${widget.campaign.id}',
+            child: Material(
+              type: MaterialType.transparency,
+              child: CampaignCard(
+                campaign: widget.campaign,
+                onTap: widget.onTap,
+              ),
+            ),
           ),
         ),
       ),

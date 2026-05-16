@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/extensions/theme_extensions.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_texts.dart';
 import 'widgets/profile_header.dart';
@@ -12,25 +13,25 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: CustomScrollView(
         slivers: [
           // App Bar
           SliverAppBar(
             pinned: true,
             expandedHeight: 0,
-            backgroundColor: AppColors.surface,
-            title: const Text(
+            backgroundColor: Theme.of(context).colorScheme.surface,
+            title: Text(
               AppTexts.profile,
               style: TextStyle(
-                color: AppColors.textPrimary,
+                color: context.textPrimary,
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),
             ),
             actions: [
               IconButton(
-                icon: const Icon(Icons.edit_outlined),
+                icon: Icon(Icons.edit_outlined),
                 color: AppColors.primary,
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -74,10 +75,10 @@ class ProfileScreen extends StatelessWidget {
               child: Center(
                 child: Column(
                   children: [
-                    const Text(
+                    Text(
                       AppTexts.appName,
                       style: TextStyle(
-                        color: AppColors.textSecondary,
+                        color: context.textSecondary,
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),
@@ -86,7 +87,7 @@ class ProfileScreen extends StatelessWidget {
                     Text(
                       AppTexts.appVersionWithTech,
                       style: TextStyle(
-                        color: AppColors.textSecondary.withValues(alpha: 0.6),
+                        color: context.textSecondary.withValues(alpha: 0.6),
                         fontSize: 11,
                       ),
                     ),

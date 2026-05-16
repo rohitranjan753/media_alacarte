@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import '../../../core/extensions/theme_extensions.dart';
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/formatters.dart';
@@ -125,14 +126,14 @@ class _CtrChartState extends State<CtrChart>
                         color: AppColors.primary.withValues(alpha: 0.3),
                       ),
                     ),
-                    child: const Row(
+                    child: Row(
                       children: [
-                        _LegendDot(color: AppColors.primary, dashed: false),
-                        SizedBox(width: 6),
+                        const _LegendDot(color: AppColors.primary, dashed: false),
+                        const SizedBox(width: 6),
                         Text(
                           'Historical CTR',
                           style: TextStyle(
-                            color: AppColors.textSecondary,
+                            color: context.textSecondary,
                             fontSize: 11,
                             fontWeight: FontWeight.w500,
                           ),
@@ -150,14 +151,14 @@ class _CtrChartState extends State<CtrChart>
                         color: AppColors.primaryLight.withValues(alpha: 0.3),
                       ),
                     ),
-                    child: const Row(
+                    child: Row(
                       children: [
-                        _LegendDot(color: AppColors.primaryLight, dashed: true),
-                        SizedBox(width: 6),
+                        const _LegendDot(color: AppColors.primaryLight, dashed: true),
+                        const SizedBox(width: 6),
                         Text(
                           'Forecast CTR',
                           style: TextStyle(
-                            color: AppColors.textSecondary,
+                            color: context.textSecondary,
                             fontSize: 11,
                             fontWeight: FontWeight.w500,
                           ),
@@ -169,10 +170,10 @@ class _CtrChartState extends State<CtrChart>
               ),
             ),
             const SizedBox(height: 16),
-            const Text(
+            Text(
               'CTR (%)',
               style: TextStyle(
-                color: AppColors.textSecondary,
+                color: context.textSecondary,
                 fontSize: 10,
                 fontWeight: FontWeight.w500,
                 letterSpacing: 0.5,
@@ -216,8 +217,8 @@ class _CtrChartState extends State<CtrChart>
                       gridData: FlGridData(
                         show: true,
                         drawVerticalLine: false,
-                        getDrawingHorizontalLine: (_) => const FlLine(
-                          color: AppColors.cardBorder,
+                        getDrawingHorizontalLine: (_) => FlLine(
+                          color: context.cardBorderColor,
                           strokeWidth: 1,
                         ),
                       ),
@@ -226,7 +227,7 @@ class _CtrChartState extends State<CtrChart>
                           ? ExtraLinesData(verticalLines: [
                               VerticalLine(
                                 x: lastHistX,
-                                color: AppColors.textSecondary
+                                color: context.textSecondary
                                     .withValues(alpha: 0.4),
                                 strokeWidth: 2,
                                 dashArray: [6, 4],
@@ -249,7 +250,7 @@ class _CtrChartState extends State<CtrChart>
                                 .clamp(0, allDates.length - 1);
                             return LineTooltipItem(
                               '${formatDateAbbrev(allDates[idx])}\n${(spot.y / _animation.value).toStringAsFixed(2)}%',
-                              const TextStyle(
+                              TextStyle(
                                 color: AppColors.primary,
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
@@ -269,8 +270,8 @@ class _CtrChartState extends State<CtrChart>
                             reservedSize: yAxisWidth,
                             getTitlesWidget: (v, _) => Text(
                               '${v.toStringAsFixed(0)}%',
-                              style: const TextStyle(
-                                color: AppColors.textSecondary,
+                              style: TextStyle(
+                                color: context.textSecondary,
                                 fontSize: 10,
                               ),
                             ),
@@ -291,8 +292,8 @@ class _CtrChartState extends State<CtrChart>
                                 padding: const EdgeInsets.only(top: 5),
                                 child: Text(
                                   formatDateAbbrev(allDates[idx]),
-                                  style: const TextStyle(
-                                    color: AppColors.textSecondary,
+                                  style: TextStyle(
+                                    color: context.textSecondary,
                                     fontSize: 9,
                                   ),
                                 ),

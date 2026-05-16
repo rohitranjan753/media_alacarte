@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/extensions/theme_extensions.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_texts.dart';
 
@@ -12,7 +13,7 @@ class LogoutButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: AppColors.alertSpend),
         ),
@@ -25,7 +26,7 @@ class LogoutButton extends StatelessWidget {
               size: 20,
             ),
             const SizedBox(width: 10),
-            const Text(
+            Text(
               AppTexts.logout,
               style: TextStyle(
                 color: AppColors.alertSpend,
@@ -43,7 +44,7 @@ class LogoutButton extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: AppColors.surface,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
@@ -63,20 +64,20 @@ class LogoutButton extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 12),
-            const Text(
+            Text(
               AppTexts.logout,
               style: TextStyle(
-                color: AppColors.textPrimary,
+                color: context.textPrimary,
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ],
         ),
-        content: const Text(
+        content: Text(
           AppTexts.logoutConfirmation,
           style: TextStyle(
-            color: AppColors.textSecondary,
+            color: context.textSecondary,
             fontSize: 14,
             height: 1.5,
           ),
@@ -84,10 +85,10 @@ class LogoutButton extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text(
+            child: Text(
               AppTexts.cancel,
               style: TextStyle(
-                color: AppColors.textSecondary,
+                color: context.textSecondary,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -103,7 +104,7 @@ class LogoutButton extends StatelessWidget {
                 ),
               );
             },
-            child: const Text(
+            child: Text(
               AppTexts.logout,
               style: TextStyle(
                 color: AppColors.alertSpend,

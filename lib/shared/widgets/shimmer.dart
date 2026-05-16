@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/extensions/theme_extensions.dart';
 import '../../core/constants/app_colors.dart';
 
 /// Base shimmer widget that creates an interactive shimmer animation effect
@@ -47,7 +48,7 @@ class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
 
     // More visible highlight color with higher opacity
     final highlightColor = widget.highlightColor ??
-        AppColors.textSecondary.withValues(alpha: 0.15);
+        context.textSecondary.withValues(alpha: 0.15);
 
     return AnimatedBuilder(
       animation: _controller,
@@ -114,7 +115,7 @@ class ShimmerBox extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(borderRadius),
       ),
     );
@@ -161,8 +162,8 @@ class ShimmerCircle extends StatelessWidget {
     return Container(
       width: size,
       height: size,
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
         shape: BoxShape.circle,
       ),
     );
@@ -241,7 +242,7 @@ class _WaveShimmerState extends State<WaveShimmer>
               end: Alignment.bottomCenter,
               colors: [
                 AppColors.surface,
-                AppColors.textSecondary.withValues(alpha: 0.2),
+                context.textSecondary.withValues(alpha: 0.2),
                 AppColors.surface,
               ],
               stops: [

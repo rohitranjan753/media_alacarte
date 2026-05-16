@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../../core/extensions/theme_extensions.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../data/models/campaign.dart';
 import 'status_badge.dart';
@@ -95,10 +96,10 @@ class _CampaignCardState extends State<CampaignCard>
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: _isHovered ? AppColors.primary : AppColors.cardBorder,
+              color: _isHovered ? AppColors.primary : context.cardBorderColor,
               width: _isHovered ? 2 : 1,
             ),
             boxShadow: _isHovered
@@ -142,8 +143,8 @@ class _CampaignCardState extends State<CampaignCard>
                       children: [
                         Text(
                           widget.campaign.name,
-                          style: const TextStyle(
-                            color: AppColors.textPrimary,
+                          style: TextStyle(
+                            color: context.textPrimary,
                             fontSize: 15,
                             fontWeight: FontWeight.w700,
                           ),
@@ -153,8 +154,8 @@ class _CampaignCardState extends State<CampaignCard>
                         const SizedBox(height: 2),
                         Text(
                           widget.campaign.objective,
-                          style: const TextStyle(
-                            color: AppColors.textSecondary,
+                          style: TextStyle(
+                            color: context.textSecondary,
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
                           ),
@@ -171,9 +172,9 @@ class _CampaignCardState extends State<CampaignCard>
                   const SizedBox(width: 8),
 
                   // Menu Icon
-                  const Icon(
+                  Icon(
                     Icons.more_vert_rounded,
-                    color: AppColors.textSecondary,
+                    color: context.textSecondary,
                     size: 20,
                   ),
                 ],
@@ -187,7 +188,7 @@ class _CampaignCardState extends State<CampaignCard>
                   Container(
                     height: 6,
                     decoration: BoxDecoration(
-                      color: AppColors.cardBorder,
+                      color: context.cardBorderColor,
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -280,8 +281,8 @@ class _CampaignCardState extends State<CampaignCard>
                       Expanded(
                         child: Text(
                           '${formatCurrency(animatedSpend, symbol: widget.campaign.currency)} / ${formatCurrency(widget.campaign.budget, symbol: widget.campaign.currency)}',
-                          style: const TextStyle(
-                            color: AppColors.textSecondary,
+                          style: TextStyle(
+                            color: context.textSecondary,
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),
@@ -353,16 +354,16 @@ class _CampaignCardState extends State<CampaignCard>
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.play_circle_outline_rounded,
-                        color: AppColors.textSecondary,
+                        color: context.textSecondary,
                         size: 14,
                       ),
                       const SizedBox(width: 6),
                       Text(
                         'Start: ${formatDateFull(widget.campaign.startDate)}',
-                        style: const TextStyle(
-                          color: AppColors.textSecondary,
+                        style: TextStyle(
+                          color: context.textSecondary,
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
                         ),
@@ -372,16 +373,16 @@ class _CampaignCardState extends State<CampaignCard>
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.stop_circle_outlined,
-                        color: AppColors.textSecondary,
+                        color: context.textSecondary,
                         size: 14,
                       ),
                       const SizedBox(width: 6),
                       Text(
                         'End: ${formatDateFull(widget.campaign.endDate)}',
-                        style: const TextStyle(
-                          color: AppColors.textSecondary,
+                        style: TextStyle(
+                          color: context.textSecondary,
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
                         ),
@@ -391,16 +392,16 @@ class _CampaignCardState extends State<CampaignCard>
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.track_changes_outlined,
-                        color: AppColors.textSecondary,
+                        color: context.textSecondary,
                         size: 14,
                       ),
                       const SizedBox(width: 6),
                       Text(
                         widget.campaign.channel,
-                        style: const TextStyle(
-                          color: AppColors.textSecondary,
+                        style: TextStyle(
+                          color: context.textSecondary,
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
                         ),
@@ -437,7 +438,7 @@ class _MetricCell extends StatelessWidget {
         children: [
           Icon(
             icon,
-            color: AppColors.textSecondary,
+            color: context.textSecondary,
             size: 16,
           ),
           const SizedBox(width: 6),
@@ -448,7 +449,7 @@ class _MetricCell extends StatelessWidget {
                 Text(
                   value,
                   style: TextStyle(
-                    color: valueColor ?? AppColors.textPrimary,
+                    color: valueColor ?? context.textPrimary,
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
                   ),
@@ -458,8 +459,8 @@ class _MetricCell extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   label,
-                  style: const TextStyle(
-                    color: AppColors.textSecondary,
+                  style: TextStyle(
+                    color: context.textSecondary,
                     fontSize: 11,
                     fontWeight: FontWeight.w400,
                   ),

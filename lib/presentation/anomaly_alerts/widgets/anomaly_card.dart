@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/extensions/theme_extensions.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../data/models/anomaly.dart';
@@ -53,9 +54,9 @@ class _AnomalyCardState extends State<AnomalyCard>
           margin: const EdgeInsets.symmetric(vertical: 6),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.cardBorder),
+            border: Border.all(color: context.cardBorderColor),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,8 +103,8 @@ class _AnomalyCardState extends State<AnomalyCard>
                         const SizedBox(height: 4),
                         Text(
                           widget.anomaly.campaignName ?? 'Unknown Campaign',
-                          style: const TextStyle(
-                            color: AppColors.textPrimary,
+                          style: TextStyle(
+                            color: context.textPrimary,
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),
@@ -113,27 +114,27 @@ class _AnomalyCardState extends State<AnomalyCard>
                         const SizedBox(height: 2),
                         Row(
                           children: [
-                            const Text(
+                            Text(
                               'Campaign',
                               style: TextStyle(
-                                color: AppColors.textSecondary,
+                                color: context.textSecondary,
                                 fontSize: 11,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
                             const SizedBox(width: 8),
-                            const Text(
+                            Text(
                               '•',
                               style: TextStyle(
-                                color: AppColors.textSecondary,
+                                color: context.textSecondary,
                                 fontSize: 11,
                               ),
                             ),
                             const SizedBox(width: 8),
                             Text(
                               _formatTime(widget.anomaly.detectedAt),
-                              style: const TextStyle(
-                                color: AppColors.textSecondary,
+                              style: TextStyle(
+                                color: context.textSecondary,
                                 fontSize: 11,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -150,8 +151,8 @@ class _AnomalyCardState extends State<AnomalyCard>
               // Message
               Text(
                 widget.anomaly.message,
-                style: const TextStyle(
-                  color: AppColors.textSecondary,
+                style: TextStyle(
+                  color: context.textSecondary,
                   fontSize: 13,
                   height: 1.4,
                 ),
@@ -182,7 +183,7 @@ class _AnomalyCardState extends State<AnomalyCard>
                             ? formatCurrency(widget.anomaly.expectedValue!)
                             : formatCTR(widget.anomaly.expectedValue!),
                         icon: Icons.show_chart_rounded,
-                        iconColor: AppColors.textSecondary,
+                        iconColor: context.textSecondary,
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -245,9 +246,9 @@ class _MetricBox extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: AppColors.background,
+        color: context.backgroundColor,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: context.cardBorderColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -259,8 +260,8 @@ class _MetricBox extends StatelessWidget {
               Expanded(
                 child: Text(
                   label,
-                  style: const TextStyle(
-                    color: AppColors.textSecondary,
+                  style: TextStyle(
+                    color: context.textSecondary,
                     fontSize: 10,
                     fontWeight: FontWeight.w500,
                   ),
@@ -272,8 +273,8 @@ class _MetricBox extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             value,
-            style: const TextStyle(
-              color: AppColors.textPrimary,
+            style: TextStyle(
+              color: context.textPrimary,
               fontSize: 13,
               fontWeight: FontWeight.w700,
             ),

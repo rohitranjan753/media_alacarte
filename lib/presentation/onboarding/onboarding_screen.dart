@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/extensions/theme_extensions.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/router/app_router.dart';
 import '../../data/services/onboarding_service.dart';
@@ -86,10 +87,10 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                       padding: const EdgeInsets.all(16),
                       child: TextButton(
                         onPressed: _completeOnboarding,
-                        child: const Text(
+                        child: Text(
                           'Skip',
                           style: TextStyle(
-                            color: AppColors.textSecondary,
+                            color: context.textSecondary,
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
                           ),
@@ -128,7 +129,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                             decoration: BoxDecoration(
                               color: _currentPage == index
                                   ? AppColors.primary
-                                  : AppColors.cardBorder,
+                                  : context.cardBorderColor,
                               borderRadius: BorderRadius.circular(4),
                             ),
                           ),
@@ -157,7 +158,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                                 _currentPage == 0
                                     ? 'Next'
                                     : 'Get Started',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                   letterSpacing: 0.5,
@@ -231,7 +232,7 @@ class _OnboardingPage1 extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.campaign_rounded,
                         color: Colors.white,
                         size: 70,
@@ -247,11 +248,11 @@ class _OnboardingPage1 extends StatelessWidget {
                 offset: Offset(0, 30 * (1 - controller.value)),
                 child: Opacity(
                   opacity: controller.value,
-                  child: const Text(
+                  child: Text(
                     'Welcome to\nMedia Alacarte',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: AppColors.textPrimary,
+                      color: context.textPrimary,
                       fontSize: 32,
                       fontWeight: FontWeight.w800,
                       height: 1.2,
@@ -267,11 +268,11 @@ class _OnboardingPage1 extends StatelessWidget {
                 offset: Offset(0, 30 * (1 - controller.value)),
                 child: Opacity(
                   opacity: controller.value * 0.8,
-                  child: const Text(
+                  child: Text(
                     'Your intelligent companion for monitoring\nad campaign performance with real-time\ninsights and ML-powered predictions',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: AppColors.textSecondary,
+                      color: context.textSecondary,
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                       height: 1.5,
@@ -340,11 +341,11 @@ class _OnboardingPage2 extends StatelessWidget {
                 offset: Offset(0, 30 * (1 - controller.value)),
                 child: Opacity(
                   opacity: controller.value,
-                  child: const Text(
+                  child: Text(
                     'Powerful Features',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: AppColors.textPrimary,
+                      color: context.textPrimary,
                       fontSize: 32,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 0.5,
@@ -359,11 +360,11 @@ class _OnboardingPage2 extends StatelessWidget {
                 offset: Offset(0, 30 * (1 - controller.value)),
                 child: Opacity(
                   opacity: controller.value * 0.8,
-                  child: const Text(
+                  child: Text(
                     'Everything you need to optimize\nyour ad campaigns',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: AppColors.textSecondary,
+                      color: context.textSecondary,
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                       height: 1.5,
@@ -456,7 +457,7 @@ class _FeatureCard extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: AppColors.surface,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: color.withValues(alpha: 0.3),
@@ -491,8 +492,8 @@ class _FeatureCard extends StatelessWidget {
                       children: [
                         Text(
                           title,
-                          style: const TextStyle(
-                            color: AppColors.textPrimary,
+                          style: TextStyle(
+                            color: context.textPrimary,
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                           ),
@@ -500,8 +501,8 @@ class _FeatureCard extends StatelessWidget {
                         const SizedBox(height: 4),
                         Text(
                           description,
-                          style: const TextStyle(
-                            color: AppColors.textSecondary,
+                          style: TextStyle(
+                            color: context.textSecondary,
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
                             height: 1.4,
@@ -574,7 +575,7 @@ class _FeatureChipState extends State<_FeatureChip>
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: AppColors.primary.withValues(alpha: 0.3),
@@ -591,8 +592,8 @@ class _FeatureChipState extends State<_FeatureChip>
             const SizedBox(width: 8),
             Text(
               widget.label,
-              style: const TextStyle(
-                color: AppColors.textPrimary,
+              style: TextStyle(
+                color: context.textPrimary,
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
               ),

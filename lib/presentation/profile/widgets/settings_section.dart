@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import '../../../core/extensions/theme_extensions.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_texts.dart';
+import '../../../shared/widgets/theme_toggle_button.dart';
 
 class SettingsSection extends StatelessWidget {
   const SettingsSection({super.key});
@@ -12,10 +14,10 @@ class SettingsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             AppTexts.settings,
             style: TextStyle(
-              color: AppColors.textPrimary,
+              color: context.textPrimary,
               fontSize: 16,
               fontWeight: FontWeight.w700,
             ),
@@ -67,12 +69,7 @@ class SettingsSection extends StatelessWidget {
                 subtitle: AppTexts.languageEnglish,
                 onTap: () => _showComingSoon(context),
               ),
-              _SettingsItem(
-                icon: Icons.palette_outlined,
-                label: AppTexts.theme,
-                subtitle: AppTexts.themeDark,
-                onTap: () => _showComingSoon(context),
-              ),
+              const _ThemeSettingsItem(),
             ],
           ),
           const SizedBox(height: 12),
@@ -135,19 +132,19 @@ class SettingsSection extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: AppColors.surface,
-        title: const Text(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        title: Text(
           AppTexts.about,
-          style: TextStyle(color: AppColors.textPrimary),
+          style: TextStyle(color: context.textPrimary),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               AppTexts.appName,
               style: TextStyle(
-                color: AppColors.textPrimary,
+                color: context.textPrimary,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -155,7 +152,7 @@ class SettingsSection extends StatelessWidget {
             Text(
               AppTexts.appVersion,
               style: TextStyle(
-                color: AppColors.textSecondary,
+                color: context.textSecondary,
                 fontSize: 13,
               ),
             ),
@@ -163,7 +160,7 @@ class SettingsSection extends StatelessWidget {
             Text(
               AppTexts.appDescription,
               style: TextStyle(
-                color: AppColors.textSecondary,
+                color: context.textSecondary,
                 fontSize: 13,
                 height: 1.5,
               ),
@@ -172,7 +169,7 @@ class SettingsSection extends StatelessWidget {
             Text(
               AppTexts.copyright,
               style: TextStyle(
-                color: AppColors.textSecondary,
+                color: context.textSecondary,
                 fontSize: 12,
               ),
             ),
@@ -181,9 +178,58 @@ class SettingsSection extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text(
+            child: Text(
               AppTexts.close,
               style: TextStyle(color: AppColors.primary),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// Theme Settings Item with integrated toggle
+class _ThemeSettingsItem extends StatelessWidget {
+  const _ThemeSettingsItem();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Row(
+        children: [
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface.withValues(alpha: 0.5),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(
+              Icons.palette_outlined,
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+              size: 20,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  AppTexts.theme,
+                  style: TextStyle(
+                    color: theme.colorScheme.onSurface,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                const ThemeToggleButton(),
+              ],
             ),
           ),
         ],
@@ -199,15 +245,15 @@ class _SettingsCard extends StatelessWidget {
   });
 
   final String title;
-  final List<_SettingsItem> items;
+  final List<Widget> items;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: context.cardBorderColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -216,8 +262,8 @@ class _SettingsCard extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
             child: Text(
               title,
-              style: const TextStyle(
-                color: AppColors.textSecondary,
+              style: TextStyle(
+                color: context.textSecondary,
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 0.5,
@@ -230,8 +276,8 @@ class _SettingsCard extends StatelessWidget {
             return Column(
               children: [
                 if (index > 0)
-                  const Divider(
-                    color: AppColors.cardBorder,
+                  Divider(
+                    color: context.cardBorderColor,
                     height: 1,
                     indent: 52,
                   ),
@@ -272,12 +318,12 @@ class _SettingsItem extends StatelessWidget {
               width: 36,
               height: 36,
               decoration: BoxDecoration(
-                color: AppColors.cardBorder,
+                color: context.cardBorderColor,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
                 icon,
-                color: AppColors.textSecondary,
+                color: context.textSecondary,
                 size: 20,
               ),
             ),
@@ -288,8 +334,8 @@ class _SettingsItem extends StatelessWidget {
                 children: [
                   Text(
                     label,
-                    style: const TextStyle(
-                      color: AppColors.textPrimary,
+                    style: TextStyle(
+                      color: context.textPrimary,
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                     ),
@@ -298,8 +344,8 @@ class _SettingsItem extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       subtitle!,
-                      style: const TextStyle(
-                        color: AppColors.textSecondary,
+                      style: TextStyle(
+                        color: context.textSecondary,
                         fontSize: 12,
                       ),
                     ),
@@ -310,9 +356,9 @@ class _SettingsItem extends StatelessWidget {
             if (trailing != null)
               trailing!
             else if (onTap != null)
-              const Icon(
+              Icon(
                 Icons.chevron_right_rounded,
-                color: AppColors.textSecondary,
+                color: context.textSecondary,
                 size: 20,
               ),
           ],

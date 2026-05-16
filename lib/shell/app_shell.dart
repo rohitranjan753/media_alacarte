@@ -36,7 +36,7 @@ class _AppShellState extends State<AppShell> {
         }
       },
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: IndexedStack(
           index: _selectedIndex,
           children: [
@@ -105,17 +105,26 @@ class _BottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        border: Border(top: BorderSide(color: AppColors.cardBorder)),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        border: Border(
+          top: BorderSide(
+            color: theme.brightness == Brightness.dark
+                ? AppColors.darkCardBorder
+                : AppColors.lightCardBorder,
+          ),
+        ),
       ),
       child: BottomNavigationBar(
         currentIndex: selectedIndex,
         onTap: onTap,
-        backgroundColor: AppColors.surface,
+        backgroundColor: theme.colorScheme.surface,
         selectedItemColor: AppColors.primary,
-        unselectedItemColor: AppColors.textSecondary,
+        unselectedItemColor: theme.brightness == Brightness.dark
+            ? AppColors.darkTextSecondary
+            : AppColors.lightTextSecondary,
         selectedFontSize: 11,
         unselectedFontSize: 11,
         type: BottomNavigationBarType.fixed,

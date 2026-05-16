@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/extensions/theme_extensions.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_texts.dart';
 
@@ -12,9 +13,9 @@ class ProfileHeader extends StatelessWidget {
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: context.cardBorderColor),
       ),
       child: Column(
         children: [
@@ -57,11 +58,11 @@ class ProfileHeader extends StatelessWidget {
                     color: AppColors.statusActive,
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: AppColors.surface,
+                      color: Theme.of(context).colorScheme.surface,
                       width: 2,
                     ),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.check_rounded,
                     size: 16,
                     color: Colors.white,
@@ -73,10 +74,10 @@ class ProfileHeader extends StatelessWidget {
           const SizedBox(height: 16),
 
           // Name
-          const Text(
+          Text(
             AppTexts.userName,
             style: TextStyle(
-              color: AppColors.textPrimary,
+              color: context.textPrimary,
               fontSize: 22,
               fontWeight: FontWeight.w700,
             ),
@@ -84,10 +85,10 @@ class ProfileHeader extends StatelessWidget {
           const SizedBox(height: 4),
 
           // Email
-          const Text(
+          Text(
             AppTexts.userEmail,
             style: TextStyle(
-              color: AppColors.textSecondary,
+              color: context.textSecondary,
               fontSize: 13,
               fontWeight: FontWeight.w400,
             ),
@@ -139,7 +140,7 @@ class ProfileHeader extends StatelessWidget {
               Container(
                 width: 1,
                 height: 40,
-                color: AppColors.cardBorder,
+                color: context.cardBorderColor,
               ),
               _QuickAction(
                 icon: Icons.share_outlined,
@@ -149,7 +150,7 @@ class ProfileHeader extends StatelessWidget {
               Container(
                 width: 1,
                 height: 40,
-                color: AppColors.cardBorder,
+                color: context.cardBorderColor,
               ),
               _QuickAction(
                 icon: Icons.qr_code_rounded,
@@ -186,14 +187,14 @@ class _QuickAction extends StatelessWidget {
           children: [
             Icon(
               icon,
-              color: AppColors.textSecondary,
+              color: context.textSecondary,
               size: 22,
             ),
             const SizedBox(height: 4),
             Text(
               label,
-              style: const TextStyle(
-                color: AppColors.textSecondary,
+              style: TextStyle(
+                color: context.textSecondary,
                 fontSize: 11,
                 fontWeight: FontWeight.w500,
               ),

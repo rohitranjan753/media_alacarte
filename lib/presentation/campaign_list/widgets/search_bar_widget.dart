@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core/extensions/theme_extensions.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_texts.dart';
 
@@ -32,30 +33,30 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       height: 48,
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: context.cardBorderColor),
       ),
       child: Row(
         children: [
-          const Icon(
+          Icon(
             Icons.search_rounded,
-            color: AppColors.textSecondary,
+            color: context.textSecondary,
             size: 20,
           ),
           const SizedBox(width: 12),
           Expanded(
             child: TextField(
               controller: _controller,
-              style: const TextStyle(
-                color: AppColors.textPrimary,
+              style: TextStyle(
+                color: context.textPrimary,
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
               ),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: AppTexts.searchCampaigns,
                 hintStyle: TextStyle(
-                  color: AppColors.textSecondary,
+                  color: context.textSecondary,
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
                 ),
@@ -73,12 +74,12 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
               child: Container(
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                  color: AppColors.cardBorder,
+                  color: context.cardBorderColor,
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.tune_rounded,
-                  color: AppColors.textSecondary,
+                  color: context.textSecondary,
                   size: 18,
                 ),
               ),

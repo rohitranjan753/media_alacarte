@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/extensions/theme_extensions.dart';
 import '../../core/constants/app_colors.dart';
 import 'shimmer.dart';
 
@@ -30,9 +31,9 @@ class ShimmerDemoScreen extends StatelessWidget {
                   height: 120,
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: AppColors.surface,
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColors.cardBorder),
+                    border: Border.all(color: context.cardBorderColor),
                   ),
                   child: const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,9 +76,9 @@ class ShimmerDemoScreen extends StatelessWidget {
                   height: 120,
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: AppColors.surface,
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColors.cardBorder),
+                    border: Border.all(color: context.cardBorderColor),
                   ),
                   child: const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -172,9 +173,9 @@ class ShimmerDemoScreen extends StatelessWidget {
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: AppColors.surface,
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColors.cardBorder),
+                    border: Border.all(color: context.cardBorderColor),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -306,8 +307,8 @@ class _DemoSection extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
-            color: AppColors.textPrimary,
+          style:  TextStyle(
+            color: context.textPrimary,
             fontSize: 16,
             fontWeight: FontWeight.w700,
           ),
@@ -315,8 +316,8 @@ class _DemoSection extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           description,
-          style: const TextStyle(
-            color: AppColors.textSecondary,
+          style:  TextStyle(
+            color: context.textSecondary,
             fontSize: 13,
             fontWeight: FontWeight.w400,
           ),

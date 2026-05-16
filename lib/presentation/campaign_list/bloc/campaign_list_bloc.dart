@@ -61,12 +61,13 @@ class CampaignListBloc extends Bloc<CampaignListEvent, CampaignListState> {
     required String filter,
   }) async {
     try {
-      final campaigns = await _repository.getCampaigns();
-      final filtered = _applyFilters(campaigns, filter, '');
+      final result = await _repository.getCampaigns();
+      final filtered = _applyFilters(result.campaigns, filter, '');
       emit(CampaignListLoaded(
-        allCampaigns: campaigns,
+        allCampaigns: result.campaigns,
         campaigns: filtered,
         filter: filter,
+        isFromCache: result.isFromCache,
       ));
     } catch (e) {
       emit(CampaignListError(e.toString()));

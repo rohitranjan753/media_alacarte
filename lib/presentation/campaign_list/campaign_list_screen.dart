@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/extensions/theme_extensions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_texts.dart';
@@ -73,9 +74,9 @@ class _CampaignListViewState extends State<_CampaignListView>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           AppTexts.campaignsTitle,
           style: TextStyle(
             fontSize: 20,
@@ -89,37 +90,80 @@ class _CampaignListViewState extends State<_CampaignListView>
                 return Padding(
                   padding: const EdgeInsets.only(right: 16),
                   child: Center(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: AppColors.primary.withValues(alpha: 0.3),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.check_circle_rounded,
-                            color: AppColors.primary,
-                            size: 14,
-                          ),
-                          const SizedBox(width: 6),
-                          Text(
-                            '${state.campaigns.length} ${state.campaigns.length == 1 ? AppTexts.campaign : AppTexts.campaigns}',
-                            style: const TextStyle(
-                              color: AppColors.primary,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Cache indicator
+                        if (state.isFromCache) ...[
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.alertCTR.withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: AppColors.alertCTR.withValues(alpha: 0.3),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.offline_bolt_rounded,
+                                  color: AppColors.alertCTR,
+                                  size: 14,
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  'Offline',
+                                  style: TextStyle(
+                                    color: AppColors.alertCTR,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
+                          const SizedBox(width: 8),
                         ],
-                      ),
+
+                        // Campaign count
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary.withValues(alpha: 0.15),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: AppColors.primary.withValues(alpha: 0.3),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.check_circle_rounded,
+                                color: AppColors.primary,
+                                size: 14,
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                '${state.campaigns.length} ${state.campaigns.length == 1 ? AppTexts.campaign : AppTexts.campaigns}',
+                                style: TextStyle(
+                                  color: AppColors.primary,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 );
@@ -158,9 +202,9 @@ class _CampaignListViewState extends State<_CampaignListView>
                     child: Container(
                       height: 50,
                       decoration: BoxDecoration(
-                        color: AppColors.surface,
+                        color: Theme.of(context).colorScheme.surface,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppColors.cardBorder),
+                        border: Border.all(color: context.cardBorderColor),
                       ),
                     ),
                   ),
@@ -188,7 +232,7 @@ class _CampaignListViewState extends State<_CampaignListView>
             if (state is CampaignListLoaded) {
               return RefreshIndicator(
                 color: AppColors.primary,
-                backgroundColor: AppColors.surface,
+                backgroundColor: Theme.of(context).colorScheme.surface,
                 onRefresh: () async {
                   context
                       .read<CampaignListBloc>()

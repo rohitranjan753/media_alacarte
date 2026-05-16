@@ -3,6 +3,7 @@ import '../../presentation/anomaly_alerts/anomaly_alerts_screen.dart';
 import '../../presentation/campaign_detail/campaign_detail_screen.dart';
 import '../../presentation/campaign_list/campaign_list_screen.dart';
 import '../../presentation/spend_summary/spend_summary_screen.dart';
+import 'animated_page_route.dart';
 
 abstract final class AppRoutes {
   static const String campaignList = '/';
@@ -23,9 +24,10 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
 
   if (name.startsWith('${AppRoutes.campaignDetail}/')) {
     final id = name.substring('${AppRoutes.campaignDetail}/'.length);
-    return MaterialPageRoute(
-      builder: (_) => CampaignDetailScreen(campaignId: id),
-      settings: settings,
+    // Use animated route for campaign detail
+    return AnimatedPageRoute(
+      page: CampaignDetailScreen(campaignId: id),
+      routeSettings: settings,
     );
   }
 

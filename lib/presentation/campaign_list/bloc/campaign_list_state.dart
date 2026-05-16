@@ -23,6 +23,7 @@ class CampaignListLoaded extends CampaignListState {
     required this.filter,
     this.searchQuery = '',
     this.isRefreshing = false,
+    this.isFromCache = false,
   });
 
   final List<Campaign> allCampaigns;
@@ -30,6 +31,7 @@ class CampaignListLoaded extends CampaignListState {
   final String filter;
   final String searchQuery;
   final bool isRefreshing;
+  final bool isFromCache;
 
   /// Computed property: Campaign counts by status
   Map<String, int> get campaignCounts => {
@@ -48,6 +50,7 @@ class CampaignListLoaded extends CampaignListState {
     String? filter,
     String? searchQuery,
     bool? isRefreshing,
+    bool? isFromCache,
   }) =>
       CampaignListLoaded(
         allCampaigns: allCampaigns ?? this.allCampaigns,
@@ -55,10 +58,11 @@ class CampaignListLoaded extends CampaignListState {
         filter: filter ?? this.filter,
         searchQuery: searchQuery ?? this.searchQuery,
         isRefreshing: isRefreshing ?? this.isRefreshing,
+        isFromCache: isFromCache ?? this.isFromCache,
       );
 
   @override
-  List<Object?> get props => [allCampaigns, campaigns, filter, searchQuery, isRefreshing];
+  List<Object?> get props => [allCampaigns, campaigns, filter, searchQuery, isRefreshing, isFromCache];
 }
 
 class CampaignListError extends CampaignListState {
