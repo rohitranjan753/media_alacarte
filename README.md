@@ -119,10 +119,35 @@ A professional 4-screen Flutter application built for Media Alacarte that provid
 
 ### Prerequisites
 
-- **Flutter SDK**: 3.6.0 or higher
-- **Dart SDK**: 3.6.0 or higher
+- **Flutter SDK**: 3.41.8 or higher (Channel: stable)
+- **Dart SDK**: 3.11.5 or higher
 - **IDE**: VS Code or Android Studio with Flutter/Dart plugins
 - **Device/Emulator**: iOS 12+ or Android 5.0+ (API 21+)
+
+### Verified Environment
+
+This project has been tested with the following configuration:
+
+```
+Flutter SDK:     3.41.8 (stable channel)
+Dart SDK:        3.11.5
+DevTools:        2.54.2
+Android SDK:     36.0.0
+Xcode:           26.2 (Build 17C52)
+CocoaPods:       1.16.2
+Java:            OpenJDK 21.0.6
+```
+
+**Supported Platforms:**
+- ✅ Android (API 21+)
+- ✅ iOS (12.0+)
+- ✅ macOS Desktop
+- ✅ Web (Chrome)
+
+**Verified Devices:**
+- Android Emulator (API 36, arm64)
+- macOS Desktop (darwin-arm64)
+- Chrome Browser (web)
 
 ### Installation
 
@@ -174,6 +199,22 @@ flutter run -d <device-id>
 ```bash
 flutter build apk --release
 ```
+---
+
+## 🔧 Environment Verification
+
+### Check Flutter Installation
+```bash
+flutter doctor -v
+```
+
+This should show all checkmarks (✓) for:
+- Flutter SDK
+- Android toolchain
+- Xcode (macOS only)
+- Connected devices
+- Network resources
+
 ---
 
 ## 🧪 Testing
