@@ -16,10 +16,29 @@ class DailyMetric extends Equatable {
   /// Creates a [DailyMetric] instance from JSON data.
   ///
   /// Expects a map with keys: 'date' (ISO 8601 string), 'ctr' (number).
-  factory DailyMetric.fromJson(Map<String, dynamic> json) => DailyMetric(
-        date: DateTime.parse(json['date'] as String),
-        ctr: (json['ctr'] as num).toDouble(),
-      );
+  ///
+  /// Throws [FormatException] if required fields are missing or invalid.
+  factory DailyMetric.fromJson(Map<String, dynamic> json) {
+    final dateStr = json['date'] as String?;
+    final ctr = json['ctr'] as num?;
+
+    if (dateStr == null) {
+      throw const FormatException('Missing required field: date');
+    }
+    if (ctr == null) {
+      throw const FormatException('Missing required field: ctr');
+    }
+
+    final date = DateTime.tryParse(dateStr);
+    if (date == null) {
+      throw FormatException('Invalid date format: $dateStr');
+    }
+
+    return DailyMetric(
+      date: date,
+      ctr: ctr.toDouble(),
+    );
+  }
 
   /// Converts this [DailyMetric] instance to a JSON map.
   Map<String, dynamic> toJson() => {

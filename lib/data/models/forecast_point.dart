@@ -28,12 +28,31 @@ class ForecastPoint extends Equatable {
   /// Creates a [ForecastPoint] instance from JSON data.
   ///
   /// Expects a map with keys: 'date', 'predicted_ctr', 'lower_bound', 'upper_bound'.
-  factory ForecastPoint.fromJson(Map<String, dynamic> json) => ForecastPoint(
-        date: DateTime.parse(json['date'] as String),
-        predictedCtr: (json['predicted_ctr'] as num).toDouble(),
-        lowerBound: (json['lower_bound'] as num).toDouble(),
-        upperBound: (json['upper_bound'] as num).toDouble(),
-      );
+  ///
+  /// Throws [FormatException] if required fields are missing or invalid.
+  factory ForecastPoint.fromJson(Map<String, dynamic> json) {
+    final dateStr = json['date'] as String?;
+    final predictedCtr = json['predicted_ctr'] as num?;
+    final lowerBound = json['lower_bound'] as num?;
+    final upperBound = json['upper_bound'] as num?;
+
+    if (dateStr == null || predictedCtr == null ||
+        lowerBound == null || upperBound == null) {
+      throw const FormatException('Missing required fields in ForecastPoint');
+    }
+
+    final date = DateTime.tryParse(dateStr);
+    if (date == null) {
+      throw FormatException('Invalid date format: $dateStr');
+    }
+
+    return ForecastPoint(
+      date: date,
+      predictedCtr: predictedCtr.toDouble(),
+      lowerBound: lowerBound.toDouble(),
+      upperBound: upperBound.toDouble(),
+    );
+  }
 
   /// Converts this [ForecastPoint] instance to a JSON map.
   Map<String, dynamic> toJson() => {
