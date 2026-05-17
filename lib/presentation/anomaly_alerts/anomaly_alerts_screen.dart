@@ -15,6 +15,32 @@ import 'bloc/anomaly_event.dart';
 import 'bloc/anomaly_state.dart';
 import 'widgets/anomaly_card.dart';
 
+/// Displays real-time anomaly alerts for campaign performance issues.
+///
+/// This screen continuously monitors campaigns for anomalies using:
+/// - Live polling every 30 seconds to fetch latest metrics
+/// - ML-powered anomaly detection for spend spikes and CTR drops
+/// - Push notifications for new anomalies
+/// - Real-time status bar with pulsing indicator and countdown timer
+/// - Animated anomaly cards with slide-in animations
+/// - Notification toggle for enabling/disabling alerts
+/// - Pull-to-refresh to restart polling
+///
+/// The screen lifecycle:
+/// 1. Starts polling on mount ([StartPolling] event)
+/// 2. Fetches live metrics every 30 seconds
+/// 3. Detects anomalies using ML repository
+/// 4. Shows local notifications for new anomalies
+/// 5. Stops polling on dispose ([StopPolling] event)
+///
+/// The status bar shows:
+/// - Green pulsing dot for active monitoring
+/// - Red pulsing dot for errors
+/// - Current timestamp
+/// - Countdown to next poll (30s intervals)
+///
+/// Route: `/anomaly-alerts`
+/// Navigation: Accessible via bottom navigation bar
 class AnomalyAlertsScreen extends StatelessWidget {
   const AnomalyAlertsScreen({super.key});
 

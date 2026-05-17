@@ -3,6 +3,16 @@ import '../../../core/extensions/theme_extensions.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_texts.dart';
 
+/// A search bar widget for filtering campaigns by name.
+///
+/// Features:
+/// - Search icon on the left
+/// - Text input field with hint text
+/// - Optional filter button on the right
+/// - Themed styling matching the app's design system
+///
+/// The search is performed as the user types, with each character
+/// change triggering the [onSearchChanged] callback.
 class SearchBarWidget extends StatefulWidget {
   const SearchBarWidget({
     super.key,
@@ -10,7 +20,12 @@ class SearchBarWidget extends StatefulWidget {
     this.onFilterTap,
   });
 
+  /// Callback invoked when the search text changes.
+  /// Receives the current search query as a parameter.
   final ValueChanged<String> onSearchChanged;
+
+  /// Optional callback for the filter button tap.
+  /// If null, the filter button is not displayed.
   final VoidCallback? onFilterTap;
 
   @override

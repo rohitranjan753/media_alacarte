@@ -3,7 +3,17 @@ import '../../../core/extensions/theme_extensions.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_texts.dart';
 
-/// This is a dummy profile page header
+/// Displays the user's profile information at the top of the profile screen.
+///
+/// Shows:
+/// - Circular avatar with gradient background and verified badge
+/// - User name and email
+/// - Role badge (e.g., "Campaign Manager")
+/// - Three quick action buttons: Message, Share, QR Code
+///
+/// This is a dummy/placeholder implementation with hardcoded values
+/// from app constants. In a production app, this would display
+/// actual user data from authentication state.
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({super.key});
 
@@ -165,6 +175,10 @@ class ProfileHeader extends StatelessWidget {
   }
 }
 
+/// A quick action button in the profile header.
+///
+/// Displays an icon with a label below it. Currently non-functional
+/// in this demo implementation.
 class _QuickAction extends StatelessWidget {
   const _QuickAction({
     required this.icon,
@@ -172,8 +186,13 @@ class _QuickAction extends StatelessWidget {
     required this.onTap,
   });
 
+  /// The icon to display.
   final IconData icon;
+
+  /// The label text below the icon.
   final String label;
+
+  /// Callback invoked when tapped.
   final VoidCallback onTap;
 
   @override

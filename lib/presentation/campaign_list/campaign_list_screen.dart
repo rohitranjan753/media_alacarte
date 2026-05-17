@@ -16,6 +16,20 @@ import 'widgets/filter_bar.dart';
 import 'widgets/search_bar_widget.dart';
 import 'widgets/animated_campaign_card.dart';
 
+/// Displays a list of ad campaigns with filtering and search capabilities.
+///
+/// This is the main landing screen of the app, showing all campaigns with:
+/// - Pull-to-refresh functionality to reload campaigns
+/// - Search bar for filtering campaigns by name
+/// - Filter bar with "All", "Active", and "Paused" status options
+/// - Campaign count badge in the app bar
+/// - Offline indicator when displaying cached data
+/// - Animated campaign cards with smooth entry animations
+///
+/// The screen uses [CampaignListBloc] to manage campaign data loading,
+/// filtering, and search operations.
+///
+/// Route: `/` (default route)
 class CampaignListScreen extends StatelessWidget {
   const CampaignListScreen({super.key});
 
@@ -29,6 +43,13 @@ class CampaignListScreen extends StatelessWidget {
   }
 }
 
+/// Internal stateful widget that manages the campaign list UI and animations.
+///
+/// Handles:
+/// - Floating action button animations based on scroll direction
+/// - Animated entry for search bar and filter bar
+/// - Staggered animation for campaign cards
+/// - Pull-to-refresh gestures
 class _CampaignListView extends StatefulWidget {
   const _CampaignListView();
 

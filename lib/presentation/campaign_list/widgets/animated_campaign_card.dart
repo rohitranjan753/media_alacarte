@@ -2,6 +2,17 @@ import 'package:flutter/material.dart';
 import '../../../data/models/campaign.dart';
 import 'campaign_card.dart';
 
+/// An animated wrapper around [CampaignCard] that provides staggered entry animations.
+///
+/// Creates a smooth entrance effect for campaign cards in the list with:
+/// - Fade-in animation
+/// - Slide-up animation
+/// - Scale animation with elastic bounce
+/// - Staggered timing based on card index for waterfall effect
+/// - Hero animation support for smooth transitions to detail screen
+///
+/// The animations are controlled by an [AnimationController] with delays
+/// calculated based on the card's [index] position in the list.
 class AnimatedCampaignCard extends StatefulWidget {
   const AnimatedCampaignCard({
     super.key,
@@ -10,8 +21,13 @@ class AnimatedCampaignCard extends StatefulWidget {
     required this.onTap,
   });
 
+  /// The position of this card in the list, used to stagger animations.
   final int index;
+
+  /// The campaign data to display.
   final Campaign campaign;
+
+  /// Callback invoked when the card is tapped.
   final VoidCallback onTap;
 
   @override

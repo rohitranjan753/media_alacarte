@@ -4,6 +4,20 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../data/models/summary.dart';
 
+/// A list tile displaying a top-performing campaign with ranking.
+///
+/// Shows:
+/// - Rank badge (1, 2, 3) in a colored square container
+/// - Campaign icon based on name/type
+/// - Campaign name and spend amount
+/// - CTR percentage with green upward arrow indicator
+///
+/// Icons are dynamically selected based on campaign name:
+/// - Shopping cart for sale campaigns
+/// - Gift card for loyalty/premium campaigns
+/// - Campaign icon for promotional campaigns
+///
+/// Tapping the tile navigates to the campaign detail screen.
 class TopCampaignTile extends StatelessWidget {
   const TopCampaignTile({
     super.key,
@@ -13,9 +27,16 @@ class TopCampaignTile extends StatelessWidget {
     this.onTap,
   });
 
+  /// The campaign data to display.
   final TopCampaign campaign;
+
+  /// The rank position (1-3) of this campaign.
   final int rank;
+
+  /// The maximum CTR among all top campaigns (used for relative sizing).
   final double maxCtr;
+
+  /// Optional callback invoked when the tile is tapped.
   final VoidCallback? onTap;
 
   IconData _getCampaignIcon() {

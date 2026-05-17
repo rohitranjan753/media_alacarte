@@ -2,6 +2,19 @@ import 'package:flutter/material.dart';
 import '../../../core/extensions/theme_extensions.dart';
 import '../../../core/constants/app_colors.dart';
 
+/// A horizontal scrollable bar displaying campaign filter options.
+///
+/// Displays three filter chips:
+/// - "All" - Shows all campaigns regardless of status
+/// - "Active" - Shows only active campaigns
+/// - "Paused" - Shows only paused campaigns
+///
+/// Each chip features:
+/// - Status-specific icon (apps, play circle, pause circle)
+/// - Count badge showing number of campaigns in that category
+/// - Color-coded when selected (green for active, amber for paused, teal for all)
+/// - Staggered entry animation with elastic bounce
+/// - Animated border, background, and shadow on selection
 class FilterBar extends StatelessWidget {
   const FilterBar({
     super.key,
@@ -10,8 +23,13 @@ class FilterBar extends StatelessWidget {
     this.campaignCounts,
   });
 
+  /// The currently selected filter ('all', 'active', or 'paused').
   final String selected;
+
+  /// Callback invoked when a filter chip is tapped.
   final ValueChanged<String> onFilterChanged;
+
+  /// Optional map of filter names to campaign counts for displaying badges.
   final Map<String, int>? campaignCounts;
 
   static const _filters = ['all', 'active', 'paused'];

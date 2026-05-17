@@ -1,12 +1,24 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../models/anomaly.dart';
 
+/// Service for managing local push notifications.
+///
+/// Wraps [FlutterLocalNotificationsPlugin] to provide anomaly alert notifications.
+/// Handles platform-specific initialization (Android & iOS), permission requests,
+/// and notification display with proper channels and priorities.
 class NotificationService {
   final _plugin = FlutterLocalNotificationsPlugin();
   bool _isEnabled = true;
 
+  /// Whether notifications are currently enabled by user preference.
   bool get isEnabled => _isEnabled;
 
+  /// Initializes the notification plugin with platform-specific settings.
+  ///
+  /// Sets up Android notification channels and iOS notification settings.
+  /// Must be called before showing any notifications, typically in main().
+  /// Does not request permissions on iOS initially - call [requestPermissions]
+  /// when the user explicitly enables notifications.
   Future<void> init() async {
     const androidSettings =
         AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -38,6 +50,13 @@ class NotificationService {
         ?.createNotificationChannel(androidChannel);
   }
 
+  /// Requests notification permissions from the user.
+  ///
+  /// On iOS, shows the system permission dialog. On Android 13+, requests
+  /// the POST_NOTIFICATIONS permission. Returns true if permission is granted
+  /// or not required (older Android versions).
+  ///
+  /// Should be called when the user enables notifications in settings.
   Future<bool> requestPermissions() async {
     // Request iOS permissions
     final iosGranted = await _plugin
@@ -60,6 +79,11 @@ class NotificationService {
     return iosGranted ?? androidGranted ?? true;
   }
 
+  /// Checks whether notifications are enabled at the system level.
+  ///
+  /// On Android, queries the system for notification permission status.
+  /// On iOS, assumes enabled after initialization (actual permission checked on request).
+  /// Returns true if notifications are allowed, false otherwise.
   Future<bool> areNotificationsEnabled() async {
     // Check Android notification status
     final androidEnabled = await _plugin
@@ -77,10 +101,21 @@ class NotificationService {
     return true;
   }
 
+  /// Sets whether notifications should be shown.
+  ///
+  /// When set to false, [showAnomalyAlert] will return early without displaying
+  /// notifications. Used to respect user preference from settings.
   void setEnabled(bool enabled) {
     _isEnabled = enabled;
   }
 
+  /// Displays a local notification for a detected anomaly.
+  ///
+  /// Shows a high-priority notification with the anomaly message. The notification
+  /// title is determined by the anomaly type (spend spike, CTR drop, etc.).
+  /// Uses a unique ID based on timestamp to avoid conflicts.
+  ///
+  /// Does nothing if notifications are disabled via [setEnabled].
   Future<void> showAnomalyAlert({required Anomaly anomaly}) async {
     if (!_isEnabled) return;
 
@@ -104,6 +139,7 @@ class NotificationService {
     );
   }
 
+  /// Generates a user-friendly notification title based on anomaly type.
   String _title(String type) => switch (type) {
         'spend_spike' => 'Spend Spike Detected',
         'ctr_drop' => 'CTR Drop Detected',

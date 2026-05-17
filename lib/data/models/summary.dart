@@ -1,5 +1,9 @@
 import 'package:equatable/equatable.dart';
 
+/// Represents spending and performance metrics for a single advertising channel.
+///
+/// Used within the spend summary screen to show breakdowns by channel
+/// (e.g., Search, Social, Display) for donut chart visualization.
 class ChannelSpend extends Equatable {
   const ChannelSpend({
     required this.channel,
@@ -8,11 +12,19 @@ class ChannelSpend extends Equatable {
     required this.clicks,
   });
 
+  /// Channel name (e.g., "Search", "Social", "Display").
   final String channel;
+
+  /// Total spend for this channel.
   final double spend;
+
+  /// Total impressions for this channel.
   final int impressions;
+
+  /// Total clicks for this channel.
   final int clicks;
 
+  /// Creates a [ChannelSpend] instance from JSON data.
   factory ChannelSpend.fromJson(Map<String, dynamic> json) => ChannelSpend(
         channel: json['channel'] as String,
         spend: (json['spend'] as num).toDouble(),
@@ -20,6 +32,7 @@ class ChannelSpend extends Equatable {
         clicks: (json['clicks'] as num).toInt(),
       );
 
+  /// Converts this [ChannelSpend] instance to a JSON map.
   Map<String, dynamic> toJson() => {
         'channel': channel,
         'spend': spend,
@@ -31,6 +44,10 @@ class ChannelSpend extends Equatable {
   List<Object?> get props => [channel, spend, impressions, clicks];
 }
 
+/// Represents a top-performing campaign with key metrics.
+///
+/// Used in the spend summary screen to display ranked lists of best-performing
+/// campaigns based on CTR and spend.
 class TopCampaign extends Equatable {
   const TopCampaign({
     required this.id,
@@ -39,12 +56,21 @@ class TopCampaign extends Equatable {
     required this.spend,
   });
 
+  /// Campaign ID.
   final String id;
+
+  /// Campaign name.
   final String name;
-  // Stored as percentage (0.048 ratio → 4.8)
+
+  /// Click-Through Rate stored as percentage (API ratio 0.048 → 4.8%).
   final double ctr;
+
+  /// Total spend for this campaign.
   final double spend;
 
+  /// Creates a [TopCampaign] instance from JSON data.
+  ///
+  /// Converts CTR from ratio (0-1) to percentage (0-100) during parsing.
   factory TopCampaign.fromJson(Map<String, dynamic> json) => TopCampaign(
         id: json['id'] as String,
         name: json['name'] as String,
@@ -52,6 +78,9 @@ class TopCampaign extends Equatable {
         spend: (json['spend'] as num).toDouble(),
       );
 
+  /// Converts this [TopCampaign] instance to a JSON map.
+  ///
+  /// Converts CTR from percentage back to ratio format for API compatibility.
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
@@ -63,6 +92,11 @@ class TopCampaign extends Equatable {
   List<Object?> get props => [id, name, ctr, spend];
 }
 
+/// Represents aggregated campaign performance summary across a date range.
+///
+/// Contains overall metrics (total spend, impressions, clicks, CTR) along with
+/// breakdowns by channel and rankings of top campaigns. Displayed in the
+/// spend summary screen with KPI cards and donut charts.
 class Summary extends Equatable {
   const Summary({
     required this.totalSpend,
@@ -74,14 +108,30 @@ class Summary extends Equatable {
     required this.topCampaigns,
   });
 
+  /// Total spend across all campaigns in the date range.
   final double totalSpend;
+
+  /// Total impressions across all campaigns.
   final int totalImpressions;
+
+  /// Total clicks across all campaigns.
   final int totalClicks;
+
+  /// Overall CTR percentage across all campaigns.
   final double overallCtr;
+
+  /// Spend breakdown by advertising channel.
   final List<ChannelSpend> byChannel;
+
+  /// Date range for this summary (e.g., "last7", "last30").
   final String dateRange;
+
+  /// List of top-performing campaigns ranked by performance.
   final List<TopCampaign> topCampaigns;
 
+  /// Creates a [Summary] instance from JSON data.
+  ///
+  /// Parses the summary API response with safe defaults for optional fields.
   factory Summary.fromJson(Map<String, dynamic> json) => Summary(
         totalSpend: (json['total_spend'] as num).toDouble(),
         totalImpressions:
@@ -97,6 +147,7 @@ class Summary extends Equatable {
             .toList(),
       );
 
+  /// Converts this [Summary] instance to a JSON map.
   Map<String, dynamic> toJson() => {
         'total_spend': totalSpend,
         'total_impressions': totalImpressions,
@@ -107,6 +158,7 @@ class Summary extends Equatable {
         'top_campaigns': topCampaigns.map((c) => c.toJson()).toList(),
       };
 
+  /// Creates a copy of this [Summary] with the given fields replaced.
   Summary copyWith({
     double? totalSpend,
     int? totalImpressions,

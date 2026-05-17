@@ -8,6 +8,21 @@ import 'injection.dart';
 import 'presentation/onboarding/onboarding_screen.dart';
 import 'shell/app_shell.dart';
 
+/// Root application widget for the Media Alacarte Ad Campaign Dashboard.
+///
+/// This widget sets up:
+/// - Theme management with [ThemeCubit] (light/dark mode switching)
+/// - Material app configuration with custom themes
+/// - Named route navigation system
+/// - Initial screen routing (onboarding or main shell)
+///
+/// The app supports both light and dark themes, with the active theme
+/// controlled by [ThemeCubit] and persisted across app sessions.
+///
+/// **Navigation Flow:**
+/// 1. App launches to [_InitialScreen]
+/// 2. Checks onboarding status via [OnboardingService]
+/// 3. Routes to either [OnboardingScreen] (first launch) or [AppShell] (returning user)
 class App extends StatelessWidget {
   const App({super.key});
 
@@ -32,6 +47,10 @@ class App extends StatelessWidget {
   }
 }
 
+/// Internal widget that determines the initial route based on onboarding status.
+///
+/// Shows a loading indicator while checking if the user has completed onboarding,
+/// then routes to the appropriate screen.
 class _InitialScreen extends StatefulWidget {
   const _InitialScreen();
 

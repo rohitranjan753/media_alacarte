@@ -4,6 +4,33 @@ import '../../core/constants/app_colors.dart';
 import '../../core/router/app_router.dart';
 import '../../data/services/onboarding_service.dart';
 
+/// A two-page onboarding screen introducing the app's features.
+///
+/// Page 1 - Welcome:
+/// - App logo with gradient circle and glow effect
+/// - Welcome message and tagline
+/// - Feature highlight chips (Real-time Analytics, ML Forecasting, Smart Alerts)
+/// - Skip button in top-right corner
+///
+/// Page 2 - Features:
+/// - "Powerful Features" headline
+/// - Three feature cards with icons, titles, and descriptions:
+///   1. CTR Forecasting - ML predictions with confidence intervals
+///   2. Anomaly Detection - Real-time alerts for performance issues
+///   3. Spend Analytics - Channel breakdown and top performers
+///
+/// The screen features:
+/// - Animated gradient background with radial pulse
+/// - Floating decorative particles
+/// - Staggered animations for all elements
+/// - Page indicators at bottom
+/// - Next/Get Started button
+/// - Saves completion state to skip on subsequent launches
+///
+/// Once completed, the user is navigated to the campaign list screen
+/// and won't see this onboarding again.
+///
+/// Route: `/onboarding` (shown on first app launch)
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 

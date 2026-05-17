@@ -17,9 +17,28 @@ import 'bloc/campaign_detail_state.dart';
 import 'widgets/budget_recommendation_card.dart';
 import 'widgets/ctr_chart.dart';
 
+/// Displays detailed information for a single campaign with ML-powered insights.
+///
+/// This screen shows:
+/// - Campaign header with name, dates, objective, and pulsing status badge
+/// - Animated KPI cards (impressions, clicks, CTR, spend)
+/// - Optional conversion metrics row (conversions, conversion rate, cost per click/conversion)
+/// - Target audience card (age range, regions, interests)
+/// - CTR performance chart with 30-day historical data
+/// - ML-generated 7-day forecast with confidence intervals
+/// - Budget recommendation card based on predicted CTR trends
+/// - Floating decorative particles for visual polish
+/// - Pull-to-refresh functionality
+///
+/// The screen uses [CampaignDetailBloc] to load campaign data and
+/// fetch ML forecasts from the backend.
+///
+/// Route: `/campaign/:id`
+/// Navigation: Receives [campaignId] as a required parameter
 class CampaignDetailScreen extends StatelessWidget {
   const CampaignDetailScreen({super.key, required this.campaignId});
 
+  /// The unique identifier of the campaign to display.
   final String campaignId;
 
   @override

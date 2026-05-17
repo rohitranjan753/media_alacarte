@@ -2,8 +2,55 @@ import 'package:flutter/material.dart';
 import '../../core/extensions/theme_extensions.dart';
 import '../../core/constants/app_colors.dart';
 
-/// Base shimmer widget that creates an interactive shimmer animation effect
-/// with a sweeping flash animation from left to right
+/// Base shimmer widget that creates a sweeping shimmer animation effect.
+///
+/// This widget applies a diagonal shimmer effect (flash animation) that moves
+/// from left to right across its child widget, creating a polished loading state.
+/// The animation uses a linear gradient with multiple color stops to create
+/// a smooth, visible shimmer sweep.
+///
+/// **Usage:**
+/// ```dart
+/// // Wrap any widget with shimmer
+/// Shimmer(
+///   child: Container(
+///     width: 200,
+///     height: 100,
+///     color: Colors.grey,
+///   ),
+/// )
+///
+/// // Custom duration and colors
+/// Shimmer(
+///   duration: Duration(seconds: 2),
+///   baseColor: Colors.grey[300]!,
+///   highlightColor: Colors.white,
+///   child: YourWidget(),
+/// )
+///
+/// // Conditionally enable/disable
+/// Shimmer(
+///   enabled: isLoading,
+///   child: YourWidget(),
+/// )
+/// ```
+///
+/// **Animation details:**
+/// - Sweeps from left to right diagonally
+/// - Repeats infinitely while enabled
+/// - Uses `ShaderMask` with `BlendMode.srcATop` for the effect
+/// - Gradient moves from -1.0 to 2.0 (off-screen to off-screen)
+///
+/// **Best practices:**
+/// - Use with placeholder UI that matches the shape of real content
+/// - Combine with [ShimmerBox], [ShimmerCircle], and [ShimmerLine] for layouts
+/// - See `shimmer_layouts.dart` for pre-built screen-specific layouts
+///
+/// **Where used:**
+/// - Campaign List Screen (via [CampaignListShimmer])
+/// - Campaign Detail Screen (via [CampaignDetailShimmer])
+/// - Spend Summary Screen (via [SpendSummaryShimmer])
+/// - Anomaly Alerts Screen (via [AnomalyAlertsShimmer])
 class Shimmer extends StatefulWidget {
   const Shimmer({
     super.key,
@@ -14,10 +61,33 @@ class Shimmer extends StatefulWidget {
     this.enabled = true,
   });
 
+  /// The widget to apply the shimmer effect to.
+  ///
+  /// This is typically a placeholder layout built with [ShimmerBox],
+  /// [ShimmerCircle], and [ShimmerLine] widgets.
   final Widget child;
+
+  /// Duration of one complete shimmer sweep animation.
+  ///
+  /// Defaults to 1500 milliseconds. Shorter durations create faster animations.
   final Duration duration;
+
+  /// The base color of the shimmer effect.
+  ///
+  /// This is the "resting" color when the shimmer sweep is not passing over.
+  /// Defaults to [AppColors.surface].
   final Color baseColor;
+
+  /// The highlight color of the shimmer sweep.
+  ///
+  /// If not provided, uses theme-aware secondary text color with 0.15 opacity.
+  /// This color is brightened at the center of the sweep for maximum visibility.
   final Color? highlightColor;
+
+  /// Whether the shimmer animation is enabled.
+  ///
+  /// If false, the child is rendered without any shimmer effect.
+  /// Useful for conditionally showing/hiding the loading state.
   final bool enabled;
 
   @override
@@ -94,7 +164,44 @@ class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
   }
 }
 
-/// Simple shimmer box - the building block for shimmer layouts
+/// A simple rectangular shimmer placeholder with rounded corners.
+///
+/// This is the primary building block for constructing shimmer loading layouts.
+/// It creates a colored box with configurable dimensions and border radius.
+/// Optionally can include a pulsing animation for enhanced visual effect.
+///
+/// **Usage:**
+/// ```dart
+/// // Simple box
+/// ShimmerBox(
+///   width: 100,
+///   height: 100,
+/// )
+///
+/// // Full width with custom radius
+/// ShimmerBox(
+///   width: double.infinity,
+///   height: 50,
+///   borderRadius: 12,
+/// )
+///
+/// // With pulsing animation
+/// ShimmerBox(
+///   width: 80,
+///   height: 80,
+///   borderRadius: 16,
+///   withPulse: true,
+/// )
+/// ```
+///
+/// **When to use:**
+/// - As a placeholder for rectangular content (cards, buttons, images)
+/// - Building complex shimmer layouts by combining multiple boxes
+/// - Creating progress bars and dividers in loading states
+///
+/// **Pulse animation:**
+/// When [withPulse] is true, the box will scale and fade in/out continuously,
+/// creating a "breathing" effect that draws more attention.
 class ShimmerBox extends StatelessWidget {
   const ShimmerBox({
     super.key,
@@ -104,9 +211,25 @@ class ShimmerBox extends StatelessWidget {
     this.withPulse = false,
   });
 
+  /// Width of the shimmer box.
+  ///
+  /// If null, the box will try to expand to fill available width.
   final double? width;
+
+  /// Height of the shimmer box.
+  ///
+  /// If null, the box will try to expand to fill available height.
   final double? height;
+
+  /// Corner radius of the shimmer box.
+  ///
+  /// Defaults to 8. Use higher values for more rounded corners.
   final double borderRadius;
+
+  /// Whether to add a continuous pulsing/breathing animation.
+  ///
+  /// If true, the box will scale between 85% and 100% with opacity changes,
+  /// creating an attention-grabbing pulsing effect. Defaults to false.
   final bool withPulse;
 
   @override

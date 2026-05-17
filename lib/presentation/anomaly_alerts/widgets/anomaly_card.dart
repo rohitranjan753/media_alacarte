@@ -4,9 +4,30 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../data/models/anomaly.dart';
 
+/// A card displaying detailed information about a detected campaign anomaly.
+///
+/// Shows:
+/// - Type badge ("SPEND SPIKE" or "CTR DROP") with color coding
+/// - Campaign name and detection timestamp
+/// - Anomaly icon (trending up for spend spike, down for CTR drop)
+/// - Descriptive message explaining the issue
+/// - Detailed metrics (if available):
+///   - Actual value (spend or CTR)
+///   - Expected value
+///   - Percentage change with directional indicator
+///
+/// The card features:
+/// - Slide-in animation from top on mount
+/// - Fade-in animation
+/// - Color-coded styling (red for spend spikes, yellow for CTR drops)
+/// - Relative time formatting ("Just now", "5m ago", "2h ago")
+///
+/// Anomalies are detected by comparing real-time metrics against
+/// ML-predicted baselines and flagging significant deviations.
 class AnomalyCard extends StatefulWidget {
   const AnomalyCard({super.key, required this.anomaly});
 
+  /// The anomaly data to display.
   final Anomaly anomaly;
 
   @override
@@ -228,6 +249,10 @@ class _AnomalyCardState extends State<AnomalyCard>
   String _pad(int n) => n.toString().padLeft(2, '0');
 }
 
+/// A small metric display box showing a labeled value with an icon.
+///
+/// Used to display the three key metrics in an anomaly:
+/// actual value, expected value, and percentage change.
 class _MetricBox extends StatelessWidget {
   const _MetricBox({
     required this.label,
@@ -236,9 +261,16 @@ class _MetricBox extends StatelessWidget {
     required this.iconColor,
   });
 
+  /// The label text (e.g., "Spend", "Expected", "Change").
   final String label;
+
+  /// The formatted value to display.
   final String value;
+
+  /// The icon to show next to the label.
   final IconData icon;
+
+  /// The color for the icon.
   final Color iconColor;
 
   @override

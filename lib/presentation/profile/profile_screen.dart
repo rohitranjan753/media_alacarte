@@ -7,6 +7,35 @@ import 'widgets/stats_cards.dart';
 import 'widgets/settings_section.dart';
 import 'widgets/logout_button.dart';
 
+/// Displays user profile information and app settings.
+///
+/// The screen is organized into sections:
+///
+/// 1. **Profile Header**:
+///    - User avatar with verified badge
+///    - Name and email
+///    - Role badge
+///    - Quick action buttons (Message, Share, QR Code)
+///
+/// 2. **Performance Stats**:
+///    - Four KPI cards showing campaigns, spend, impressions, and CTR
+///    - Color-coded icons for visual distinction
+///
+/// 3. **Settings Sections**:
+///    - Account: Edit profile, change password, organization
+///    - Preferences: Notifications toggle, language, theme switcher
+///    - Support: Help center, report bug, about dialog
+///    - Legal: Privacy policy, terms of service
+///
+/// 4. **Actions**:
+///    - Logout button with confirmation dialog
+///    - Version info at bottom
+///
+/// Most settings are placeholders showing "Coming Soon" snackbars,
+/// except for the theme toggle which is fully functional.
+///
+/// Route: `/profile`
+/// Navigation: Accessible via bottom navigation bar
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 

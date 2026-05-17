@@ -3,6 +3,36 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/theme/theme_cubit.dart';
 
+/// An animated toggle button widget that switches between light and dark theme modes.
+///
+/// This widget provides a smooth, interactive UI for theme switching with:
+/// - Two options: Light and Dark mode
+/// - Visual feedback with animations and hover states
+/// - Selected state highlighting with primary brand color
+/// - Smooth transitions between themes
+///
+/// The widget automatically reflects the current theme mode from [ThemeCubit]
+/// and updates the app theme when the user selects a different option.
+///
+/// **Features:**
+/// - Fade-in animation on mount
+/// - Scale animation on selection
+/// - Hover effects for better interactivity
+/// - Rounded pill-shaped container with shadow
+/// - Theme-aware colors that adapt to current mode
+///
+/// **Usage:**
+/// ```dart
+/// // In Profile Screen or Settings
+/// const ThemeToggleButton()
+/// ```
+///
+/// **Dependencies:**
+/// - Requires [ThemeCubit] to be available in the widget tree
+/// - Uses [AppColors] for consistent theming
+///
+/// **Where used:**
+/// - Profile Screen settings section
 class ThemeToggleButton extends StatelessWidget {
   const ThemeToggleButton({super.key});
 
@@ -65,6 +95,16 @@ class ThemeToggleButton extends StatelessWidget {
   }
 }
 
+/// A single theme option button within the theme toggle.
+///
+/// This internal widget represents one selectable theme option (Light or Dark).
+/// It includes animations for selection state and hover interactions.
+///
+/// **Features:**
+/// - Scale animation when selected
+/// - Hover state with background color change
+/// - Selected state with primary color highlight and border
+/// - Icon and label display
 class _ThemeOption extends StatefulWidget {
   const _ThemeOption({
     required this.icon,
@@ -73,9 +113,16 @@ class _ThemeOption extends StatefulWidget {
     required this.label,
   });
 
+  /// The icon to display for this theme option.
   final IconData icon;
+
+  /// Whether this theme option is currently selected.
   final bool isSelected;
+
+  /// Callback invoked when this option is tapped.
   final VoidCallback onTap;
+
+  /// The text label for this theme option ("Light" or "Dark").
   final String label;
 
   @override

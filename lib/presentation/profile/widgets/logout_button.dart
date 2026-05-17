@@ -3,6 +3,19 @@ import '../../../core/extensions/theme_extensions.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_texts.dart';
 
+/// A prominent logout button with confirmation dialog.
+///
+/// Features:
+/// - Red border and text to indicate destructive action
+/// - Logout icon alongside text
+/// - Tap opens confirmation dialog with:
+///   - Warning icon
+///   - Logout confirmation message
+///   - Cancel and Logout actions
+///
+/// On logout confirmation, shows a success snackbar.
+/// This is a placeholder implementation - in production,
+/// this would clear authentication state and navigate to login.
 class LogoutButton extends StatelessWidget {
   const LogoutButton({super.key});
 

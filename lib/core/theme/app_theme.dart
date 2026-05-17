@@ -1,7 +1,44 @@
 import 'package:flutter/material.dart';
 import '../constants/app_colors.dart';
 
+/// Application theme configuration with both light and dark theme variants.
+///
+/// This class provides complete [ThemeData] configurations for both light
+/// and dark modes, ensuring consistent styling across the entire app.
+///
+/// **Key Theme Components:**
+/// - Color schemes (light and dark)
+/// - Typography with custom text styles
+/// - Card, AppBar, and button themes
+/// - Component themes (chips, segmented buttons, progress indicators)
+///
+/// **Usage:**
+/// ```dart
+/// MaterialApp(
+///   theme: AppTheme.light,
+///   darkTheme: AppTheme.dark,
+///   themeMode: ThemeMode.system, // or use ThemeCubit
+/// )
+/// ```
+///
+/// **Design System:**
+/// - Primary color: Teal (#1CB4BF)
+/// - Corner radius: 12px for cards, 8px for chips
+/// - Typography: System default with custom weights
+/// - Consistent spacing and elevation
+///
+/// Both themes share the same teal primary color but adapt all other colors
+/// (backgrounds, text, borders) for optimal readability in each mode.
 abstract final class AppTheme {
+  /// Light theme configuration with bright backgrounds and dark text.
+  ///
+  /// **Colors:**
+  /// - Background: Light gray (#F5F5F6)
+  /// - Surface: Pure white (#FFFFFF)
+  /// - Primary text: Very dark gray (#111113)
+  /// - Secondary text: Medium gray (#6B6B70)
+  ///
+  /// **Use case:** Daytime viewing, well-lit environments
   static ThemeData get light {
     final base = ThemeData.light();
     final colorScheme = ColorScheme.fromSeed(
@@ -105,6 +142,15 @@ abstract final class AppTheme {
     );
   }
 
+  /// Dark theme configuration with dark backgrounds and light text.
+  ///
+  /// **Colors:**
+  /// - Background: Very dark gray (#111113)
+  /// - Surface: Dark gray (#1B1A1E)
+  /// - Primary text: Off-white (#F5F5F6)
+  /// - Secondary text: Light gray (#9A9AA2)
+  ///
+  /// **Use case:** Nighttime viewing, low-light environments, OLED power saving
   static ThemeData get dark {
     final base = ThemeData.dark();
     final colorScheme = ColorScheme.fromSeed(

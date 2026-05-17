@@ -6,6 +6,28 @@ import '../presentation/campaign_list/campaign_list_screen.dart';
 import '../presentation/spend_summary/spend_summary_screen.dart';
 import '../presentation/profile/profile_screen.dart';
 
+/// The main application shell providing bottom navigation and tab management.
+///
+/// This widget serves as the root container for the app's main screens,
+/// managing navigation between four tabs:
+/// 1. Campaign List (Home)
+/// 2. Spend Summary
+/// 3. Anomaly Alerts
+/// 4. Profile
+///
+/// Features:
+/// - Persistent bottom navigation bar
+/// - Independent navigation stacks for each tab
+/// - State preservation when switching tabs
+/// - Back button handling (pops tab navigation before exiting)
+/// - Tap selected tab to pop to root of that tab
+///
+/// Each tab has its own [Navigator] with a separate [GlobalKey],
+/// allowing independent navigation history. The [IndexedStack]
+/// keeps all tab widgets mounted to preserve their state.
+///
+/// The shell uses [PopScope] to handle back button presses correctly,
+/// allowing navigation within tabs before popping the entire app.
 class AppShell extends StatefulWidget {
   const AppShell({super.key});
 
@@ -75,10 +97,17 @@ class _AppShellState extends State<AppShell> {
   }
 }
 
+/// A nested navigator for an individual tab.
+///
+/// Provides independent navigation within a tab while maintaining
+/// the tab's state when switching between tabs.
 class _TabNavigator extends StatelessWidget {
   const _TabNavigator({required this.navigatorKey, required this.root});
 
+  /// The unique key for this tab's navigator.
   final GlobalKey<NavigatorState> navigatorKey;
+
+  /// The root screen widget for this tab.
   final Widget root;
 
   @override
@@ -97,10 +126,22 @@ class _TabNavigator extends StatelessWidget {
   }
 }
 
+/// The bottom navigation bar for switching between main tabs.
+///
+/// Displays four navigation items with icons and labels:
+/// - Campaigns (campaign icon)
+/// - Spend Summary (bar chart icon)
+/// - Alerts (notification icon)
+/// - Profile (person icon)
+///
+/// The selected tab is highlighted with the primary color.
 class _BottomNav extends StatelessWidget {
   const _BottomNav({required this.selectedIndex, required this.onTap});
 
+  /// The index of the currently selected tab (0-3).
   final int selectedIndex;
+
+  /// Callback invoked when a tab is tapped.
   final ValueChanged<int> onTap;
 
   @override

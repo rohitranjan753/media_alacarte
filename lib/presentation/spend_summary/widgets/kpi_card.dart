@@ -2,6 +2,17 @@ import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/extensions/theme_extensions.dart';
 
+/// A prominent card displaying a key performance indicator (KPI).
+///
+/// Features a large value display with:
+/// - Optional icon in a colored circular container
+/// - Label text above the value
+/// - Main value in large bold font
+/// - Optional subtitle text below the value
+/// - Themed styling with surface color and borders
+///
+/// Typically used to highlight important metrics like total spend,
+/// campaign counts, or other aggregate statistics.
 class KpiCard extends StatelessWidget {
   const KpiCard({
     super.key,
@@ -12,10 +23,19 @@ class KpiCard extends StatelessWidget {
     this.valueColor,
   });
 
+  /// The label text displayed above the value (e.g., "Total Spend").
   final String label;
+
+  /// The formatted value to display prominently (e.g., "$12,345").
   final String value;
+
+  /// Optional subtitle text displayed below the value.
   final String? subtitle;
+
+  /// Optional icon displayed to the left of the text.
   final IconData? icon;
+
+  /// Optional color for the value text. Defaults to primary text color.
   final Color? valueColor;
 
   @override

@@ -5,6 +5,20 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../data/models/summary.dart';
 
+/// An interactive donut chart visualizing spend distribution across channels.
+///
+/// Features:
+/// - Color-coded segments for Search (teal), Social (amber), Display (purple)
+/// - Animated section growth from 0 to actual values
+/// - Touch interaction to highlight segments with expansion and badge
+/// - Center label showing total spend with animated counter
+/// - Bottom legend with interactive chips for each channel
+/// - Hover effects on legend items with scale animation
+/// - Percentage labels on each segment
+/// - Selected state with glowing shadows and larger radius
+///
+/// The chart uses `fl_chart` package with custom styling and animations
+/// to create an engaging data visualization experience.
 class SpendDonutChart extends StatefulWidget {
   const SpendDonutChart({
     super.key,
@@ -12,7 +26,10 @@ class SpendDonutChart extends StatefulWidget {
     required this.totalSpend,
   });
 
+  /// List of spend amounts per channel.
   final List<ChannelSpend> byChannel;
+
+  /// Total spend across all channels.
   final double totalSpend;
 
   @override
@@ -254,6 +271,10 @@ class _SpendDonutChartState extends State<SpendDonutChart>
   }
 }
 
+/// An animated legend item that can be tapped to highlight chart sections.
+///
+/// Displays channel name, spend amount, and percentage with color coding.
+/// Features staggered entry animation and hover/selection effects.
 class _AnimatedLegendItem extends StatefulWidget {
   const _AnimatedLegendItem({
     required this.index,
@@ -265,12 +286,25 @@ class _AnimatedLegendItem extends StatefulWidget {
     required this.onTap,
   });
 
+  /// Position in the legend list for staggered animation.
   final int index;
+
+  /// The color representing this channel.
   final Color color;
+
+  /// The channel name (e.g., "Search", "Social").
   final String channel;
+
+  /// The spend amount for this channel.
   final double spend;
+
+  /// The percentage of total spend for this channel.
   final double percentage;
+
+  /// Whether this item is currently selected.
   final bool isSelected;
+
+  /// Callback invoked when the item is tapped.
   final VoidCallback onTap;
 
   @override

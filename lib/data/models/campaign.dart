@@ -1,5 +1,9 @@
 import 'package:equatable/equatable.dart';
 
+/// Represents the target audience configuration for a campaign.
+///
+/// Defines demographic and interest-based targeting parameters including
+/// age ranges, geographic regions, and interest categories.
 class TargetAudience extends Equatable {
   const TargetAudience({
     this.ageRange,
@@ -7,10 +11,18 @@ class TargetAudience extends Equatable {
     this.interests,
   });
 
+  /// Age range for the target audience (e.g., "18-24", "25-34").
   final String? ageRange;
+
+  /// Geographic regions where the campaign should be shown.
   final List<String>? regions;
+
+  /// Interest categories for targeting (e.g., "sports", "technology").
   final List<String>? interests;
 
+  /// Creates a [TargetAudience] instance from JSON data.
+  ///
+  /// Expects a map with optional keys: 'age_range', 'regions', 'interests'.
   factory TargetAudience.fromJson(Map<String, dynamic> json) => TargetAudience(
         ageRange: json['age_range'] as String?,
         regions: (json['regions'] as List<dynamic>?)
@@ -21,6 +33,7 @@ class TargetAudience extends Equatable {
             .toList(),
       );
 
+  /// Converts this [TargetAudience] instance to a JSON map.
   Map<String, dynamic> toJson() => {
         'age_range': ageRange,
         'regions': regions,
@@ -31,6 +44,11 @@ class TargetAudience extends Equatable {
   List<Object?> get props => [ageRange, regions, interests];
 }
 
+/// Represents an advertising campaign with its performance metrics and configuration.
+///
+/// Contains all essential campaign data including budget, spend, performance metrics
+/// (impressions, clicks, CTR), status, and targeting information. This is the primary
+/// data model used throughout the application for displaying and analyzing campaigns.
 class Campaign extends Equatable {
   const Campaign({
     required this.id,
@@ -54,32 +72,81 @@ class Campaign extends Equatable {
     this.targetAudience,
   });
 
+  /// Unique identifier for the campaign.
   final String id;
+
+  /// Display name of the campaign.
   final String name;
+
+  /// Current status: 'active', 'paused', or 'ended'.
   final String status;
+
+  /// Campaign objective (e.g., "brand_awareness", "conversions").
   final String objective;
+
+  /// Advertising channel (e.g., "Search", "Social", "Display").
   final String channel;
+
+  /// Total amount spent on the campaign to date.
   final double totalSpend;
+
+  /// Total allocated budget for the campaign.
   final double budget;
+
+  /// Total number of ad impressions delivered.
   final int impressions;
+
+  /// Total number of clicks received.
   final int clicks;
+
+  /// Campaign start date.
   final DateTime startDate;
+
+  /// Campaign end date.
   final DateTime endDate;
+
+  /// Currency code (e.g., "USD", "EUR").
   final String currency;
+
+  /// Percentage of budget utilized (0.0 to 1.0).
   final double budgetUtilization;
+
+  /// Optional URL to campaign thumbnail image.
   final String? thumbnail;
+
+  /// Total number of conversions tracked.
   final int? conversions;
+
+  /// Average cost per click.
   final double? costPerClick;
+
+  /// Average cost per conversion.
   final double? costPerConversion;
+
+  /// Daily budget limit.
   final double? dailyBudget;
+
+  /// Target audience configuration.
   final TargetAudience? targetAudience;
 
+  /// Calculates the Click-Through Rate (CTR) as a percentage.
+  ///
+  /// Returns the ratio of clicks to impressions multiplied by 100.
+  /// Returns 0.0 if impressions or clicks are zero to avoid division by zero.
   double get ctr =>
       impressions == 0 || clicks == 0 ? 0.0 : clicks / impressions * 100;
 
+  /// Calculates the conversion rate as a percentage.
+  ///
+  /// Returns the ratio of conversions to clicks multiplied by 100.
+  /// Returns 0.0 if clicks are zero or conversions are null.
   double get conversionRate =>
       clicks == 0 || conversions == null ? 0.0 : (conversions! / clicks) * 100;
 
+  /// Creates a [Campaign] instance from JSON data.
+  ///
+  /// Parses API response data into a Campaign object. Handles missing or null
+  /// values with sensible defaults. Date parsing failures default to current time.
   factory Campaign.fromJson(Map<String, dynamic> json) => Campaign(
         id: json['id'] as String,
         name: json['name'] as String,
@@ -108,6 +175,9 @@ class Campaign extends Equatable {
             : null,
       );
 
+  /// Converts this [Campaign] instance to a JSON map.
+  ///
+  /// Serializes all campaign data for API requests or local storage.
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
@@ -130,6 +200,10 @@ class Campaign extends Equatable {
         'target_audience': targetAudience?.toJson(),
       };
 
+  /// Creates a copy of this [Campaign] with the given fields replaced.
+  ///
+  /// Returns a new Campaign instance with updated values while preserving
+  /// unchanged fields from the original instance.
   Campaign copyWith({
     String? id,
     String? name,

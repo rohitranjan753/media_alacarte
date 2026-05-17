@@ -3,6 +3,22 @@ import '../../../core/extensions/theme_extensions.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_texts.dart';
 
+/// Displays a grid of performance statistics cards in the profile screen.
+///
+/// Shows four KPI cards in a 2x2 grid:
+/// - Campaigns: Number of active campaigns
+/// - Total Spend: Monthly spend amount
+/// - Impressions: Total ad impressions
+/// - Click Rate: Average CTR percentage
+///
+/// Each card features:
+/// - Color-coded icon in a circular container
+/// - Large value display
+/// - Label and subtitle text
+/// - Arrow indicator suggesting interactivity
+///
+/// This is a placeholder implementation with hardcoded values.
+/// In a production app, these would be fetched from user analytics.
 class StatsCards extends StatelessWidget {
   const StatsCards({super.key});
 
@@ -76,6 +92,10 @@ class StatsCards extends StatelessWidget {
   }
 }
 
+/// An individual statistics card showing a single metric.
+///
+/// Displays an icon, label, large value, and subtitle in a
+/// styled container with borders and backgrounds.
 class _StatCard extends StatelessWidget {
   const _StatCard({
     required this.icon,
@@ -85,10 +105,19 @@ class _StatCard extends StatelessWidget {
     required this.subtitle,
   });
 
+  /// The icon representing this metric.
   final IconData icon;
+
+  /// The color for the icon and its background.
   final Color iconColor;
+
+  /// The label text (e.g., "Campaigns").
   final String label;
+
+  /// The main value to display (e.g., "12").
   final String value;
+
+  /// Subtitle text below the value (e.g., "Active").
   final String subtitle;
 
   @override

@@ -4,6 +4,24 @@ import '../../../core/constants/app_colors.dart';
 import '../../../data/models/daily_metric.dart';
 import '../../../data/models/forecast_point.dart';
 
+/// An intelligent card that provides budget recommendations based on CTR forecast.
+///
+/// Analyzes the difference between the last historical CTR and the final forecasted
+/// CTR to provide actionable budget advice:
+///
+/// - **CTR increasing > 5%**: Green card suggesting budget increase to maximize results
+/// - **CTR dropping > 5%**: Red card warning to pause or reduce budget
+/// - **CTR stable (±5%)**: Neutral card recommending to maintain current budget
+///
+/// The card displays:
+/// - Color-coded icon (trending up/down/flat)
+/// - Percentage change with directional arrow
+/// - Headline message describing the trend
+/// - Recommendation text
+/// - "View Details" button for further action
+///
+/// Enhanced visuals for positive trends include gradient backgrounds,
+/// animated shadows, and pulsing effects.
 class BudgetRecommendationCard extends StatelessWidget {
   const BudgetRecommendationCard({
     super.key,
@@ -11,7 +29,10 @@ class BudgetRecommendationCard extends StatelessWidget {
     required this.forecast,
   });
 
+  /// Historical CTR data used to establish the baseline.
   final List<DailyMetric> history;
+
+  /// Forecasted CTR data used to predict future performance.
   final List<ForecastPoint> forecast;
 
   @override

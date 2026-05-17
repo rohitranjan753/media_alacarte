@@ -4,6 +4,25 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_texts.dart';
 import '../../../shared/widgets/theme_toggle_button.dart';
 
+/// Displays organized settings sections in the profile screen.
+///
+/// Contains four setting categories:
+///
+/// 1. **Account**: Profile, password, organization settings
+/// 2. **Preferences**: Notifications toggle, language, theme switcher
+/// 3. **Support**: Help center, bug reporting, about dialog
+/// 4. **Legal**: Privacy policy, terms of service
+///
+/// Features:
+/// - Grouped cards with section titles
+/// - Icon-labeled list items
+/// - Tappable items with chevron indicators
+/// - Interactive toggles for notifications and theme
+/// - About dialog with app info and version
+///
+/// Most items show "Coming Soon" placeholders except:
+/// - Theme toggle (fully functional)
+/// - About dialog (shows app information)
 class SettingsSection extends StatelessWidget {
   const SettingsSection({super.key});
 
@@ -189,7 +208,10 @@ class SettingsSection extends StatelessWidget {
   }
 }
 
-// Theme Settings Item with integrated toggle
+/// A settings item specifically for theme selection.
+///
+/// Displays the theme icon and integrates the [ThemeToggleButton]
+/// which allows switching between light and dark themes.
 class _ThemeSettingsItem extends StatelessWidget {
   const _ThemeSettingsItem();
 
@@ -238,13 +260,20 @@ class _ThemeSettingsItem extends StatelessWidget {
   }
 }
 
+/// A container card grouping related settings items.
+///
+/// Displays a section title followed by a list of settings items
+/// separated by dividers.
 class _SettingsCard extends StatelessWidget {
   const _SettingsCard({
     required this.title,
     required this.items,
   });
 
+  /// The section title displayed at the top.
   final String title;
+
+  /// The list of setting items to display.
   final List<Widget> items;
 
   @override
@@ -291,6 +320,14 @@ class _SettingsCard extends StatelessWidget {
   }
 }
 
+/// A single settings list item with icon, label, and optional trailing widget.
+///
+/// Can display:
+/// - Icon in a colored circular container
+/// - Label text
+/// - Optional subtitle below the label
+/// - Custom trailing widget (e.g., Switch, chevron)
+/// - Tap interaction
 class _SettingsItem extends StatelessWidget {
   const _SettingsItem({
     required this.icon,
@@ -300,10 +337,19 @@ class _SettingsItem extends StatelessWidget {
     this.onTap,
   });
 
+  /// The icon to display for this setting.
   final IconData icon;
+
+  /// The main label text.
   final String label;
+
+  /// Optional subtitle text below the label.
   final String? subtitle;
+
+  /// Optional custom trailing widget (e.g., Switch, badge).
   final Widget? trailing;
+
+  /// Callback invoked when the item is tapped.
   final VoidCallback? onTap;
 
   @override

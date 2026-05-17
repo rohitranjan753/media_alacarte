@@ -17,6 +17,23 @@ import 'widgets/kpi_card.dart';
 import 'widgets/spend_donut_chart.dart';
 import 'widgets/top_campaign_tile.dart';
 
+/// Displays aggregated spend analytics across all campaigns.
+///
+/// This screen provides:
+/// - Segmented date range picker (Last 7/14/30 days)
+/// - Total spend KPI card with large display value
+/// - Interactive donut chart showing spend breakdown by channel
+///   (Search, Social, Display) with animated sections and legend
+/// - Top 3 performing campaigns by CTR with rank badges
+/// - Pull-to-refresh functionality
+/// - Floating decorative particles for visual polish
+/// - Smooth animations for all elements on screen entry
+///
+/// The screen uses [SpendSummaryBloc] to manage spend data
+/// loading and date range filtering.
+///
+/// Route: `/spend-summary`
+/// Navigation: Accessible via bottom navigation bar
 class SpendSummaryScreen extends StatelessWidget {
   const SpendSummaryScreen({super.key});
 

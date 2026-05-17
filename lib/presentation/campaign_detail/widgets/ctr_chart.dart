@@ -6,6 +6,24 @@ import '../../../core/utils/formatters.dart';
 import '../../../data/models/daily_metric.dart';
 import '../../../data/models/forecast_point.dart';
 
+/// A line chart displaying CTR performance history and ML-powered forecast.
+///
+/// The chart visualizes:
+/// - Historical CTR data as a solid teal line
+/// - ML forecast as a dashed light teal line
+/// - Confidence interval as a shaded area between upper/lower bounds
+/// - Animated data points that grow from 0 to actual values
+/// - Interactive tooltips showing date and CTR on tap
+/// - Section labels indicating "Historical (Xd)" and "Forecast (Xd)"
+/// - Vertical dashed line separating historical from forecast data
+///
+/// The chart uses `fl_chart` package with custom styling:
+/// - Animated line drawing with cubic easing
+/// - Gradient fill under historical line
+/// - Grid lines for Y-axis only
+/// - Date labels on X-axis
+/// - Percentage format on Y-axis
+/// - Legend with solid/dashed line indicators
 class CtrChart extends StatefulWidget {
   const CtrChart({
     super.key,
@@ -13,7 +31,10 @@ class CtrChart extends StatefulWidget {
     required this.forecast,
   });
 
+  /// List of historical daily CTR metrics (typically 30 days).
   final List<DailyMetric> history;
+
+  /// List of forecasted CTR points with confidence bounds (typically 7 days).
   final List<ForecastPoint> forecast;
 
   @override
@@ -448,10 +469,16 @@ class _CtrChartState extends State<CtrChart>
   }
 }
 
+/// A small line indicator for the chart legend.
+///
+/// Displays either a solid or dashed line to match the chart line styles.
 class _LegendDot extends StatelessWidget {
   const _LegendDot({required this.color, required this.dashed});
 
+  /// The color of the line.
   final Color color;
+
+  /// Whether to draw a dashed line (true) or solid line (false).
   final bool dashed;
 
   @override
@@ -463,10 +490,14 @@ class _LegendDot extends StatelessWidget {
   }
 }
 
+/// Custom painter for drawing solid or dashed lines in the legend.
 class _LinePainter extends CustomPainter {
   const _LinePainter({required this.color, required this.dashed});
 
+  /// The color to paint the line.
   final Color color;
+
+  /// Whether to draw a dashed line pattern.
   final bool dashed;
 
   @override
@@ -499,13 +530,20 @@ class _LinePainter extends CustomPainter {
       old.color != color || old.dashed != dashed;
 }
 
+/// A labeled chip positioned above the chart to indicate sections.
+///
+/// Displays text like "Historical (30d)" or "Forecast (7d)" with
+/// color-coded styling to match the corresponding chart line.
 class _EnhancedSectionLabel extends StatelessWidget {
   const _EnhancedSectionLabel({
     required this.text,
     required this.color,
   });
 
+  /// The label text to display.
   final String text;
+
+  /// The accent color for the label background and border.
   final Color color;
 
   @override

@@ -5,10 +5,30 @@ import '../../../core/utils/formatters.dart';
 import '../../../data/models/campaign.dart';
 import 'status_badge.dart';
 
+/// A card widget that displays comprehensive campaign information.
+///
+/// Features:
+/// - Campaign icon based on objective (sales, loyalty, awareness, etc.)
+/// - Campaign name and objective
+/// - Status badge (active/paused/ended)
+/// - Animated progress bar showing spend vs budget
+/// - Animated counter for spend amount
+/// - Key metrics: impressions, clicks, and CTR
+/// - Campaign dates and channel information
+/// - Hover effects with border highlight and shadow
+///
+/// The card uses multiple animations:
+/// - Progress bar fills with easing curve
+/// - Spend counter animates from 0 to actual value
+/// - Shimmer effect on progress bar during animation
+/// - Color-coded percentage badge (green/yellow/red based on spend)
 class CampaignCard extends StatefulWidget {
   const CampaignCard({super.key, required this.campaign, required this.onTap});
 
+  /// The campaign data to display.
   final Campaign campaign;
+
+  /// Callback invoked when the card is tapped.
   final VoidCallback onTap;
 
   @override
@@ -418,6 +438,10 @@ class _CampaignCardState extends State<CampaignCard>
   }
 }
 
+/// A metric display cell showing an icon, value, and label.
+///
+/// Used to display campaign metrics like impressions, clicks, and CTR
+/// in a consistent compact format.
 class _MetricCell extends StatelessWidget {
   const _MetricCell({
     required this.icon,
@@ -426,9 +450,16 @@ class _MetricCell extends StatelessWidget {
     this.valueColor,
   });
 
+  /// The icon to display for this metric.
   final IconData icon;
+
+  /// The label text (e.g., "Impressions", "Clicks").
   final String label;
+
+  /// The formatted value to display (e.g., "1.2M", "4.30%").
   final String value;
+
+  /// Optional color for the value text. Defaults to primary text color.
   final Color? valueColor;
 
   @override
